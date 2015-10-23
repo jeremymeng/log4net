@@ -96,8 +96,12 @@ namespace log4net.Config
 		/// </remarks>
         static public ICollection Configure()
 		{
-		    return BasicConfigurator.Configure(LogManager.GetRepository(Assembly.GetCallingAssembly()));
-		}
+#if DOTNET5_5
+            return BasicConfigurator.Configure(LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly()));
+#else
+            return BasicConfigurator.Configure(LogManager.GetRepository(Assembly.GetCallingAssembly()));
+#endif
+        }
 
 	    /// <summary>
 		/// Initializes the log4net system using the specified appender.
@@ -126,7 +130,11 @@ namespace log4net.Config
         {
             ArrayList configurationMessages = new ArrayList();
 
+#if DOTNET5_5
+            ILoggerRepository repository = LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
             ILoggerRepository repository = LogManager.GetRepository(Assembly.GetCallingAssembly());
+#endif
 
             using (new LogLog.LogReceivedAdapter(configurationMessages))
             {

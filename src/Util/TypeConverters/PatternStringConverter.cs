@@ -18,6 +18,9 @@
 #endregion
 
 using System;
+#if DOTNET5_5
+using System.Reflection;
+#endif
 using System.Text;
 
 using log4net.Util;

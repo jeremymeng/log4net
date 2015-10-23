@@ -20,6 +20,9 @@
 using System;
 using System.Collections;
 using System.IO;
+#if DOTNET5_5
+using System.Reflection;
+#endif
 
 using log4net.Util;
 using log4net.Util.PatternStringConverters;
@@ -288,7 +291,9 @@ namespace log4net.Util
 			s_globalRulesRegistry.Add("date", typeof(DatePatternConverter));
 #if !NETCF
 			s_globalRulesRegistry.Add("env", typeof(EnvironmentPatternConverter));
-            s_globalRulesRegistry.Add("envFolderPath", typeof(EnvironmentFolderPathPatternConverter));
+#if !DOTNET5_5 // EnvironmentFolderPathPatternConverter not yet supported
+			s_globalRulesRegistry.Add("envFolderPath", typeof(EnvironmentFolderPathPatternConverter));
+#endif
 #endif
 			s_globalRulesRegistry.Add("identity", typeof(IdentityPatternConverter));
 			s_globalRulesRegistry.Add("literal", typeof(LiteralPatternConverter));

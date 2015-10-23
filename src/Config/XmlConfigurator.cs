@@ -94,7 +94,11 @@ namespace log4net.Config
 #endif
         static public ICollection Configure()
         {
+#if DOTNET5_5
+            return Configure(LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly()));
+#else
             return Configure(LogManager.GetRepository(Assembly.GetCallingAssembly()));
+#endif
         }
 
 #if !NETCF
@@ -162,7 +166,7 @@ namespace log4net.Config
 				LogLog.Debug(declaringType, "Application config file location unknown");
 			}
 
-#if NETCF
+#if NETCF || DOTNET5_5
 			// No config file reading stuff. Just go straight for the file
 			Configure(repository, new FileInfo(SystemInfo.ConfigurationFileLocation));
 #else
@@ -216,7 +220,11 @@ namespace log4net.Config
 		{
             ArrayList configurationMessages = new ArrayList();
 
+#if DOTNET5_5
+            ILoggerRepository repository = LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
             ILoggerRepository repository = LogManager.GetRepository(Assembly.GetCallingAssembly());
+#endif
 
             using (new LogLog.LogReceivedAdapter(configurationMessages))
             {
@@ -347,7 +355,11 @@ namespace log4net.Config
 
             using (new LogLog.LogReceivedAdapter(configurationMessages))
             {
+#if DOTNET5_5
+                InternalConfigure(LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly()), configFile);
+#else
                 InternalConfigure(LogManager.GetRepository(Assembly.GetCallingAssembly()), configFile);
+#endif
             }
 
             return configurationMessages;
@@ -371,8 +383,11 @@ namespace log4net.Config
 		{
             ArrayList configurationMessages = new ArrayList();
 
+#if DOTNET5_5
+            ILoggerRepository repository = LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
             ILoggerRepository repository = LogManager.GetRepository(Assembly.GetCallingAssembly());
-
+#endif
             using (new LogLog.LogReceivedAdapter(configurationMessages))
             {
                 InternalConfigure(repository, configUri);
@@ -401,8 +416,11 @@ namespace log4net.Config
 		{
             ArrayList configurationMessages = new ArrayList();
 
+#if DOTNET5_5
+            ILoggerRepository repository = LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
             ILoggerRepository repository = LogManager.GetRepository(Assembly.GetCallingAssembly());
-
+#endif
             using (new LogLog.LogReceivedAdapter(configurationMessages))
             {
                 InternalConfigure(repository, configStream);
@@ -567,7 +585,11 @@ namespace log4net.Config
 						finally
 						{
 							// Force the file closed whatever happens
+#if DOTNET5_5
+							fs.Dispose();
+#else
 							fs.Close();
+#endif
 						}
 					}
 				}
@@ -652,7 +674,11 @@ namespace log4net.Config
 #endif
 						try
 						{
+#if DOTNET5_5
+							WebResponse response = configRequest.GetResponseAsync().Result;
+#else
 							WebResponse response = configRequest.GetResponse();
+#endif
 							if (response != null)
 							{
 								try
@@ -665,7 +691,11 @@ namespace log4net.Config
 								}
 								finally
 								{
+#if DOTNET5_5
+									response.Dispose();
+#else
 									response.Close();
+#endif
 								}
 							}
 						}
@@ -725,12 +755,14 @@ namespace log4net.Config
 #if (NETCF)
 					// Create a text reader for the file stream
 					XmlTextReader xmlReader = new XmlTextReader(configStream);
-#elif NET_2_0
+#elif NET_2_0 || DOTNET5_5
 					// Allow the DTD to specify entity includes
 					XmlReaderSettings settings = new XmlReaderSettings();
                                         // .NET 4.0 warning CS0618: 'System.Xml.XmlReaderSettings.ProhibitDtd'
                                         // is obsolete: 'Use XmlReaderSettings.DtdProcessing property instead.'
-#if !NET_4_0 && !MONO_4_0
+#if DOTNET5_5 // TODO DtdProcessing.Parse not yet available
+					settings.DtdProcessing = DtdProcessing.Ignore;
+#elif !NET_4_0 && !MONO_4_0
 					settings.ProhibitDtd = false;
 #else
 					settings.DtdProcessing = DtdProcessing.Parse;
@@ -812,8 +844,11 @@ namespace log4net.Config
 		{
             ArrayList configurationMessages = new ArrayList();
 
+#if DOTNET5_5
+            ILoggerRepository repository = LogManager.GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
             ILoggerRepository repository = LogManager.GetRepository(Assembly.GetCallingAssembly());
-
+#endif
             using (new LogLog.LogReceivedAdapter(configurationMessages))
             {
                 InternalConfigureAndWatch(repository, configFile);
@@ -963,7 +998,7 @@ namespace log4net.Config
 			/// Initializes a new instance of the <see cref="ConfigureAndWatchHandler" /> class.
 			/// </para>
 			/// </remarks>
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || DOTNET5_5
             [System.Security.SecuritySafeCritical]
 #endif
             public ConfigureAndWatchHandler(ILoggerRepository repository, FileInfo configFile)
@@ -1043,7 +1078,7 @@ namespace log4net.Config
             /// <summary>
             /// Release the handles held by the watcher and timer.
             /// </summary>
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || DOTNET5_5
             [System.Security.SecuritySafeCritical]
 #endif
             public void Dispose()

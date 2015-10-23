@@ -17,6 +17,8 @@
 //
 #endregion
 
+#if !DOTNET5_5
+
 using System;
 using System.Xml;
 using System.Collections;
@@ -355,4 +357,4 @@ namespace log4net.Config
 		#endregion ConfigureAndWatch static methods
 	}
 }
-
+#endif // !DOTNET5_5

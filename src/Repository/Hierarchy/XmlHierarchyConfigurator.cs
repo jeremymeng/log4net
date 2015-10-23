@@ -630,7 +630,7 @@ namespace log4net.Repository.Hierarchy
 
 				if(propertyValue != null)
 				{
-#if !NETCF	
+#if !(NETCF || DOTNET5_5) // DOTNET5_5: System.Runtime.InteropServices.RuntimeInformation not available on desktop 4.6
 					try
 					{
 						// Expand environment variables in the string.
@@ -713,7 +713,11 @@ namespace log4net.Repository.Hierarchy
 							try
 							{
 								// Pass to the property
+#if DOTNET5_5
+								propInfo.SetValue(target, convertedValue, null);
+#else
 								propInfo.SetValue(target, convertedValue, BindingFlags.SetProperty, null, null, CultureInfo.InvariantCulture);
+#endif
 							}
 							catch(TargetInvocationException targetInvocationEx)
 							{
@@ -728,7 +732,11 @@ namespace log4net.Repository.Hierarchy
 							try
 							{
 								// Pass to the property
+#if DOTNET5_5
+								methInfo.Invoke(target, new[] { convertedValue });
+#else
 								methInfo.Invoke(target, BindingFlags.InvokeMethod, null, new object[] {convertedValue}, CultureInfo.InvariantCulture);
+#endif
 							}
 							catch(TargetInvocationException targetInvocationEx)
 							{
@@ -780,7 +788,11 @@ namespace log4net.Repository.Hierarchy
 							try
 							{
 								// Pass to the property
+#if DOTNET5_5
+								propInfo.SetValue(target, createdObject, null);
+#else
 								propInfo.SetValue(target, createdObject, BindingFlags.SetProperty, null, null, CultureInfo.InvariantCulture);
+#endif
 							}
 							catch(TargetInvocationException targetInvocationEx)
 							{
@@ -795,7 +807,11 @@ namespace log4net.Repository.Hierarchy
 							try
 							{
 								// Pass to the property
+#if DOTNET5_5
+								methInfo.Invoke(target, new[] { createdObject });
+#else
 								methInfo.Invoke(target, BindingFlags.InvokeMethod, null, new object[] {createdObject}, CultureInfo.InvariantCulture);
+#endif
 							}
 							catch(TargetInvocationException targetInvocationEx)
 							{
@@ -831,7 +847,12 @@ namespace log4net.Repository.Hierarchy
 		/// <returns><c>true</c> if the type is creatable using a default constructor, <c>false</c> otherwise</returns>
 		private static bool IsTypeConstructible(Type type)
 		{
+#if DOTNET5_5
+			TypeInfo typeInfo = type.GetTypeInfo();
+			if (typeInfo.IsClass && !typeInfo.IsAbstract)
+#else
 			if (type.IsClass && !type.IsAbstract)
+#endif
 			{
 				ConstructorInfo defaultConstructor = type.GetConstructor(new Type[0]);
 				if (defaultConstructor != null && !defaultConstructor.IsAbstract && !defaultConstructor.IsPrivate)
@@ -866,8 +887,13 @@ namespace log4net.Repository.Hierarchy
 			{
 				if (!methInfo.IsStatic)
 				{
+#if DOTNET5_5
+					if (System.Globalization.CultureInfo.InvariantCulture.CompareInfo.Compare(methInfo.Name, requiredMethodNameA, System.Globalization.CompareOptions.IgnoreCase) == 0 ||
+						System.Globalization.CultureInfo.InvariantCulture.CompareInfo.Compare(methInfo.Name, requiredMethodNameB, System.Globalization.CompareOptions.IgnoreCase) == 0)
+#else
 					if (string.Compare(methInfo.Name, requiredMethodNameA, true, System.Globalization.CultureInfo.InvariantCulture) == 0 ||
 						string.Compare(methInfo.Name, requiredMethodNameB, true, System.Globalization.CultureInfo.InvariantCulture) == 0)
+#endif
 					{
 						// Found matching method name
 
@@ -1027,7 +1053,7 @@ namespace log4net.Repository.Hierarchy
 
 		#endregion Protected Instance Methods
 
-#if !NETCF
+#if !(NETCF || DOTNET5_5) // DOTNET5_5: System.Runtime.InteropServices.RuntimeInformation not available on desktop 4.6
 		private bool HasCaseInsensitiveEnvironment
 	        {
 		    get

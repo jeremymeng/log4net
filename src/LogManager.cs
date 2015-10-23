@@ -87,7 +87,11 @@ namespace log4net
 		/// <returns>The logger found, or <c>null</c> if no logger could be found.</returns>
 		public static ILog Exists(string name) 
 		{
+#if DOTNET5_5
+			return Exists(CallingAssemblyWorkaround.GetCallingAssembly(), name);
+#else
 			return Exists(Assembly.GetCallingAssembly(), name);
+#endif
 		}
 
 		/// <summary>
@@ -142,7 +146,11 @@ namespace log4net
 		/// <returns>All the defined loggers.</returns>
 		public static ILog[] GetCurrentLoggers()
 		{
+#if DOTNET5_5
+			return GetCurrentLoggers(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
 			return GetCurrentLoggers(Assembly.GetCallingAssembly());
+#endif
 		}
 
 		/// <summary>
@@ -191,7 +199,11 @@ namespace log4net
 		/// <returns>The logger with the name specified.</returns>
 		public static ILog GetLogger(string name)
 		{
+#if DOTNET5_5
+			return GetLogger(CallingAssemblyWorkaround.GetCallingAssembly(), name);
+#else
 			return GetLogger(Assembly.GetCallingAssembly(), name);
+#endif
 		}
 
 		/// <summary>
@@ -252,7 +264,11 @@ namespace log4net
 		/// <returns>The logger with the name specified.</returns>
 		public static ILog GetLogger(Type type) 
 		{
+#if DOTNET5_5
+			return GetLogger(CallingAssemblyWorkaround.GetCallingAssembly(), type.FullName);
+#else
 			return GetLogger(Assembly.GetCallingAssembly(), type.FullName);
+#endif
 		}
 
 		/// <summary>
@@ -332,7 +348,11 @@ namespace log4net
 		/// </remarks>
 		public static void ShutdownRepository() 
 		{
+#if DOTNET5_5
+			ShutdownRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
 			ShutdownRepository(Assembly.GetCallingAssembly());
+#endif
 		}
 
 		/// <summary>
@@ -403,7 +423,11 @@ namespace log4net
 		/// </remarks>
 		public static void ResetConfiguration() 
 		{
+#if DOTNET5_5
+			ResetConfiguration(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
 			ResetConfiguration(Assembly.GetCallingAssembly());
+#endif
 		}
 
 		/// <summary>
@@ -458,7 +482,11 @@ namespace log4net
 		[Obsolete("Use GetRepository instead of GetLoggerRepository")]
 		public static ILoggerRepository GetLoggerRepository()
 		{
+#if DOTNET5_5
+			return GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
 			return GetRepository(Assembly.GetCallingAssembly());
+#endif
 		}
 
 		/// <summary>
@@ -508,7 +536,11 @@ namespace log4net
 		/// <returns>The <see cref="ILoggerRepository"/> instance for the default repository.</returns>
 		public static ILoggerRepository GetRepository()
 		{
+#if DOTNET5_5
+			return GetRepository(CallingAssemblyWorkaround.GetCallingAssembly());
+#else
 			return GetRepository(Assembly.GetCallingAssembly());
+#endif
 		}
 
 		/// <summary>
@@ -564,7 +596,11 @@ namespace log4net
 		[Obsolete("Use CreateRepository instead of CreateDomain")]
 		public static ILoggerRepository CreateDomain(Type repositoryType)
 		{
+#if DOTNET5_5
+			return CreateRepository(CallingAssemblyWorkaround.GetCallingAssembly(), repositoryType);
+#else
 			return CreateRepository(Assembly.GetCallingAssembly(), repositoryType);
+#endif
 		}
 
 		/// <overloads>Create a logger repository.</overloads>
@@ -584,7 +620,11 @@ namespace log4net
 		/// </remarks>
 		public static ILoggerRepository CreateRepository(Type repositoryType)
 		{
+#if DOTNET5_5
+			return CreateRepository(CallingAssemblyWorkaround.GetCallingAssembly(), repositoryType);
+#else
 			return CreateRepository(Assembly.GetCallingAssembly(), repositoryType);
+#endif
 		}
 
 		/// <summary>

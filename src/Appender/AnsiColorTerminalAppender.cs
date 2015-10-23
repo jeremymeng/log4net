@@ -252,8 +252,11 @@ namespace log4net.Appender
 			set
 			{
 				string trimmedTargetName = value.Trim();
-				
-				if (string.Compare(ConsoleError, trimmedTargetName, true, CultureInfo.InvariantCulture) == 0) 
+#if DOTNET5_5
+				if (CultureInfo.InvariantCulture.CompareInfo.Compare(ConsoleError, trimmedTargetName, CompareOptions.IgnoreCase) == 0)
+#else
+				if (string.Compare(ConsoleError, trimmedTargetName, true, CultureInfo.InvariantCulture) == 0)
+#endif
 				{
 					m_writeToErrorStream = true;
 				} 

@@ -75,7 +75,7 @@ namespace log4net.Appender
 		/// Write the logging event to the output debug string API
 		/// </para>
 		/// </remarks>
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || DOTNET5_5
         [System.Security.SecuritySafeCritical]
 #elif !NETCF
         [System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.Demand, UnmanagedCode = true)]

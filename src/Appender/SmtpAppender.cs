@@ -19,7 +19,7 @@
 
 // .NET Compact Framework 1.0 has no support for System.Web.Mail
 // SSCLI 1.0 has no support for System.Web.Mail
-#if !NETCF && !SSCLI
+#if !NETCF && !SSCLI && !DOTNET5_5
 
 using System;
 using System.IO;

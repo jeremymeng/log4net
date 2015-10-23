@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if !NETCF
+#if !(NETCF || DOTNET5_5) // DOTNET5_5: Environment.SpecialFolder not yet available
 
 using System;
 using System.IO;

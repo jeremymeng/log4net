@@ -81,7 +81,11 @@ namespace log4net.Core
 			}
 
 			// Check that the type is a repository
+#if DOTNET5_5
+			if (!(typeof(ILoggerRepository).GetTypeInfo().IsAssignableFrom(defaultRepositoryType.GetTypeInfo())))
+#else
 			if (! (typeof(ILoggerRepository).IsAssignableFrom(defaultRepositoryType)) )
+#endif
 			{
 				throw log4net.Util.SystemInfo.CreateArgumentOutOfRangeException("defaultRepositoryType", (object)defaultRepositoryType, "Parameter: defaultRepositoryType, Value: ["+defaultRepositoryType+"] out of range. Argument must implement the ILoggerRepository interface");
 			}

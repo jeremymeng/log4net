@@ -19,7 +19,9 @@
 
 using System;
 using System.Collections;
+#if !DOTNET5_5
 using System.Configuration;
+#endif
 using System.Diagnostics;
 
 namespace log4net.Util

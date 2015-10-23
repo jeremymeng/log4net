@@ -19,8 +19,7 @@
 
 // MONO 1.0 Beta mcs does not like #if !A && !B && !C syntax
 
-// .NET Compact Framework 1.0 has no support for EventLog
-#if !NETCF 
+#if !(NETCF || DOTNET5_5)
 // SSCLI 1.0 has no support for EventLog
 #if !SSCLI
 

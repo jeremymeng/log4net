@@ -56,7 +56,7 @@ namespace log4net.Core
 	/// </remarks>
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
-#if !NETCF
+#if !(NETCF || DOTNET5_5)
 	[Serializable]
 #endif
 	public class LocationInfo
@@ -83,7 +83,7 @@ namespace log4net.Core
 			m_methodName = NA;
 			m_fullInfo = NA;
 
-#if !NETCF
+#if !(NETCF || DOTNET5_5) // StackTrace isn't fully implemented for DOTNET5_5 https://github.com/dotnet/corefx/issues/1797
 			if (callerStackBoundaryDeclaringType != null)
 			{
 				try

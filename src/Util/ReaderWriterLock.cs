@@ -20,7 +20,7 @@
 #if (!NETCF)
 #define HAS_READERWRITERLOCK
 #endif
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || DOTNET5_5
 #define HAS_READERWRITERLOCKSLIM
 #endif
 

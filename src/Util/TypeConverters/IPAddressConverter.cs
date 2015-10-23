@@ -116,7 +116,11 @@ namespace log4net.Util.TypeConverters
 					}
 
 					// Try to resolve via DNS. This is a blocking call.
+#if DOTNET5_5
+					IPHostEntry host = Dns.GetHostEntryAsync(str).Result;
+#else
 					IPHostEntry host = Dns.GetHostByName(str);
+#endif
 					if (host != null && 
 						host.AddressList != null && 
 						host.AddressList.Length > 0 &&

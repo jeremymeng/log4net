@@ -29,7 +29,7 @@ namespace log4net.Core
 	/// as that would require that the containing assembly is loaded.
 	/// </summary>
 	/// 
-#if !NETCF
+#if !(NETCF || DOTNET5_5)
 	[Serializable]
 #endif
 	public class MethodItem

@@ -243,7 +243,11 @@ namespace log4net.Appender
 		{
 			if (m_mutexForRolling != null)
 			{
+#if DOTNET5_5
+				m_mutexForRolling.Dispose();
+#else
 				m_mutexForRolling.Close();
+#endif
 				m_mutexForRolling = null;
 			}
 		}
@@ -613,26 +617,26 @@ namespace log4net.Appender
 				{
 					m_mutexForRolling.WaitOne();
 				}
-				if (m_rollDate)
+			if (m_rollDate) 
+			{
+				DateTime n = m_dateTime.Now;
+				if (n >= m_nextCheck) 
 				{
-					DateTime n = m_dateTime.Now;
-					if (n >= m_nextCheck)
-					{
-						m_now = n;
-						m_nextCheck = NextCheckDate(m_now, m_rollPoint);
-
-						RollOverTime(true);
-					}
-				}
-
-				if (m_rollSize)
-				{
-					if ((File != null) && ((CountingQuietTextWriter)QuietWriter).Count >= m_maxFileSize)
-					{
-						RollOverSize();
-					}
+					m_now = n;
+					m_nextCheck = NextCheckDate(m_now, m_rollPoint);
+	
+					RollOverTime(true);
 				}
 			}
+	
+			if (m_rollSize) 
+			{
+				if ((File != null) && ((CountingQuietTextWriter)QuietWriter).Count >= m_maxFileSize) 
+				{
+					RollOverSize();
+				}
+			}
+		}
 			finally
 			{
 				// if rolling should be locked, release the lock
@@ -1033,12 +1037,21 @@ namespace log4net.Appender
 		{
 			if (null != arrayFiles)
 			{
+#if DOTNET5_5
+				string baseFileLower = CultureInfo.InvariantCulture.TextInfo.ToLower(baseFile);
+
+				foreach(string curFileName in arrayFiles)
+				{
+					InitializeFromOneFile(baseFileLower, CultureInfo.InvariantCulture.TextInfo.ToLower(curFileName));
+				}
+#else
 				string baseFileLower = baseFile.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
 				foreach(string curFileName in arrayFiles)
 				{
 					InitializeFromOneFile(baseFileLower, curFileName.ToLower(System.Globalization.CultureInfo.InvariantCulture));
 				}
+#endif
 			}
 		}
 
@@ -1676,11 +1689,12 @@ namespace log4net.Appender
 		/// FileName provided in configuration.  Used for rolling properly
 		/// </summary>
 		private string m_baseFileName;
-
+  
 		/// <summary>
 		/// A mutex that is used to lock rolling of files.
 		/// </summary>
-		private Mutex m_mutexForRolling;
+		private Mutex m_mutexForRolling; // DOTNET5_5 TODO: this doesn't enable interprocess synchronization
+                                         // https://github.com/dotnet/corefx/commit/e5c17e563423905c59e028b927027ae99e818b5e
   
 		#endregion Private Instance Fields
 

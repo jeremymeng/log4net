@@ -19,6 +19,9 @@
 
 using System;
 using System.Globalization;
+#if DOTNET5_5
+using System.Linq;
+#endif
 using System.Reflection;
 using System.Collections;
 
@@ -213,7 +216,11 @@ namespace log4net.Util.TypeConverters
 		private static object GetConverterFromAttribute(Type destinationType)
 		{
 			// Look for an attribute on the destination type
+#if DOTNET5_5
+			object[] attributes = destinationType.GetTypeInfo().GetCustomAttributes(typeof(TypeConverterAttribute), true).ToArray();
+#else
 			object[] attributes = destinationType.GetCustomAttributes(typeof(TypeConverterAttribute), true);
+#endif
 			if (attributes != null && attributes.Length > 0)
 			{
 				TypeConverterAttribute tcAttr = attributes[0] as TypeConverterAttribute;

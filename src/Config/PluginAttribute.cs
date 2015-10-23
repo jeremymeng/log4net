@@ -44,7 +44,9 @@ namespace log4net.Config
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
 	[AttributeUsage(AttributeTargets.Assembly,AllowMultiple=true)]
+#if !DOTNET5_5
 	[Serializable]
+#endif
 	public sealed class PluginAttribute : Attribute, IPluginFactory
 	{
 		#region Public Instance Constructors

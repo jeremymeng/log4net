@@ -25,6 +25,7 @@
 #if !SSCLI
 // We don't want framework or platform specific code in the CLI version of log4net
 #if !CLI_1_0
+#if !DOTNET5_5
 
 using System;
 using System.Runtime.InteropServices;
@@ -384,4 +385,4 @@ namespace log4net.Util
 #endif // !SSCLI
 #endif // !MONO
 #endif // !NETCF
-
+#endif // !DOTNET5_5

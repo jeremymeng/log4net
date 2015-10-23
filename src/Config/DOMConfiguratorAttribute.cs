@@ -18,7 +18,7 @@
 #endregion
 
 // .NET Compact Framework 1.0 has no support for reading assembly attributes
-#if !NETCF
+#if !(NETCF || DOTNET5_5)
 
 using System;
 using System.Reflection;

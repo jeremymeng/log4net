@@ -17,6 +17,9 @@
 //
 #endregion
 
+// .NET Compact Framework 1.0 doesn't support LogicalThreadContextProperties
+#if !(NETCF || DOTNET5_5)
+
 using System;
 using System.Collections;
 
@@ -139,3 +142,4 @@ namespace log4net.Util
 	}
 }
 
+#endif // !NETCF

@@ -18,7 +18,7 @@
 #endregion
 
 // .NET Compact Framework 1.0 has no support for reading assembly attributes
-#if !NETCF
+#if !(NETCF)
 
 using System;
 using System.Collections;
@@ -79,7 +79,9 @@ namespace log4net.Config
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
 	[AttributeUsage(AttributeTargets.Assembly)]
+#if !DOTNET5_5
 	[Serializable]
+#endif
 	public /*sealed*/ class XmlConfiguratorAttribute : ConfiguratorAttribute
 	{
 		//
