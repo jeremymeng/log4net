@@ -17,6 +17,8 @@
 //
 #endregion
 
+#if !NETCORE
+
 using System;
 using System.Xml;
 using System.Collections;
@@ -355,4 +357,4 @@ namespace log4net.Config
 		#endregion ConfigureAndWatch static methods
 	}
 }
-
+#endif // !NETCORE

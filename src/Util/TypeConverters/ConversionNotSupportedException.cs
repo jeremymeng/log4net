@@ -36,10 +36,14 @@ namespace log4net.Util.TypeConverters
 	/// </remarks>
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
-#if !NETCF
+#if !(NETCF || NETCORE)
 	[Serializable]
 #endif
+#if NETCORE
+	public class ConversionNotSupportedException : Exception
+#else
 	public class ConversionNotSupportedException : ApplicationException 
+#endif
 	{
 		#region Public Instance Constructors
 
@@ -88,7 +92,7 @@ namespace log4net.Util.TypeConverters
 
 		#region Protected Instance Constructors
 
-#if !NETCF
+#if !(NETCF || NETCORE)
 		/// <summary>
 		/// Serialization constructor
 		/// </summary>

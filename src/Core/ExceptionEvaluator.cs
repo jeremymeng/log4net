@@ -18,6 +18,9 @@
 #endregion
 
 using System;
+#if NETCORE
+using System.Reflection;
+#endif
 
 namespace log4net.Core
 {
@@ -113,7 +116,12 @@ namespace log4net.Core
 			{
 				// check if loggingEvent.ExceptionObject is of type ExceptionType or subclass of ExceptionType
 				Type exceptionObjectType = loggingEvent.ExceptionObject.GetType();
-				return exceptionObjectType == m_type || exceptionObjectType.IsSubclassOf(m_type);
+				return exceptionObjectType == m_type
+#if NETCORE
+					|| exceptionObjectType.GetTypeInfo().IsSubclassOf(m_type);
+#else
+					|| exceptionObjectType.IsSubclassOf(m_type);
+#endif
 			}
 			else if (!m_triggerOnSubclass && loggingEvent.ExceptionObject != null)
 			{   // check if loggingEvent.ExceptionObject is of type ExceptionType

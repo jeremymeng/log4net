@@ -149,10 +149,17 @@ namespace log4net.Util
 		/// <para>
 		/// </para>
 		/// </remarks>
+#if NETCORE
+		virtual public void Close()
+		{
+			m_writer.Dispose();
+		}
+#else
 		override public void Close() 
 		{
 			m_writer.Close();
 		}
+#endif
 
 		/// <summary>
 		/// Dispose this writer

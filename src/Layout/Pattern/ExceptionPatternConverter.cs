@@ -106,13 +106,15 @@ namespace log4net.Layout.Pattern
 					case "stacktrace":
 						WriteObject(writer, loggingEvent.Repository, loggingEvent.ExceptionObject.StackTrace);
 						break;
+#if !NETCORE
 					case "targetsite":
 						WriteObject(writer, loggingEvent.Repository, loggingEvent.ExceptionObject.TargetSite);
 						break;
+#endif
 					case "helplink":
 						WriteObject(writer, loggingEvent.Repository, loggingEvent.ExceptionObject.HelpLink);
 						break;
-#endif						
+#endif
 					default:
 						// do not output SystemInfo.NotAvailableText
 						break;

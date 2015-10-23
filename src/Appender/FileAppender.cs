@@ -160,6 +160,13 @@ namespace log4net.Appender
 
 			#region Override Implementation of Stream
 
+#if NETCORE
+			protected override void Dispose(bool disposing)
+			{
+				m_lockingModel.CloseFile();
+				base.Dispose(disposing);
+			}
+#else
 			// Methods
 			public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
 			{
@@ -180,21 +187,23 @@ namespace log4net.Appender
 				return ret;
 			}
 
-			public override void Close()
+			public override void Close() 
 			{
 				m_lockingModel.CloseFile();
 			}
 
-			public override int EndRead(IAsyncResult asyncResult)
+			public override int EndRead(IAsyncResult asyncResult) 
 			{
 				AssertLocked();
 				return m_readTotal;
 			}
-			public override void EndWrite(IAsyncResult asyncResult)
+			public override void EndWrite(IAsyncResult asyncResult) 
 			{
 				//No-op, it has already been handled
 			}
-			public override void Flush()
+#endif
+
+			public override void Flush() 
 			{
 				AssertLocked();
 				m_realStream.Flush();
@@ -219,7 +228,11 @@ namespace log4net.Appender
 			}
 			void IDisposable.Dispose()
 			{
+#if NETCORE
+				Dispose(true);
+#else
 				Close();
+#endif
 			}
 			public override void Write(byte[] buffer, int offset, int count)
 			{
@@ -470,7 +483,11 @@ namespace log4net.Appender
 			{
 				using (CurrentAppender.SecurityContext.Impersonate(this))
 				{
+#if NETCORE
+					stream.Dispose();
+#else
 					stream.Close();
+#endif
 				}
 			}
 		}
@@ -829,7 +846,11 @@ namespace log4net.Appender
 			{
 				if (m_mutex != null)
 				{
+#if !NETCORE
 					m_mutex.Close();
+#else
+					m_mutex.Dispose();
+#endif
 					m_mutex = null;
 				}
 				else
@@ -1431,7 +1452,11 @@ namespace log4net.Appender
 		/// <summary>
 		/// The encoding to use for the file stream.
 		/// </summary>
+#if NETCORE
+		private Encoding m_encoding = Encoding.Unicode;
+#else
 		private Encoding m_encoding = Encoding.Default;
+#endif
 
 		/// <summary>
 		/// The security context to use for privileged calls
@@ -1464,3 +1489,4 @@ namespace log4net.Appender
 		#endregion Private Static Fields
 	}
 }
+

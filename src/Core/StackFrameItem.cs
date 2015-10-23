@@ -30,7 +30,9 @@ namespace log4net.Core
     /// as that would require that the containing assembly is loaded.
     /// </summary>
     /// 
+#if !NETCORE
     [Serializable]
+#endif
     public class StackFrameItem
     {
         #region Public Instance Constructors

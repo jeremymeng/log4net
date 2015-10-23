@@ -196,11 +196,18 @@ namespace log4net.Layout
 			{
 				throw new ArgumentNullException("loggingEvent");
 			}
-
+#if NETCORE
+			var settings = new XmlWriterSettings
+			{
+				Indent = false,
+				OmitXmlDeclaration = true
+			};
+			var xmlWriter = XmlWriter.Create(new ProtectCloseTextWriter(writer), settings);
+#else
 			XmlTextWriter xmlWriter = new XmlTextWriter(new ProtectCloseTextWriter(writer));
 			xmlWriter.Formatting = Formatting.None;
 			xmlWriter.Namespaces = false;
-
+#endif
 			// Write the event to the writer
 			FormatXml(xmlWriter, loggingEvent);
 
@@ -208,7 +215,11 @@ namespace log4net.Layout
 
 			// Close on xmlWriter will ensure xml is flushed
 			// the protected writer will ignore the actual close
+#if NETCORE
+			xmlWriter.Dispose();
+#else
 			xmlWriter.Close();
+#endif
 		}
 
 		#endregion Override implementation of LayoutSkeleton

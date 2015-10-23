@@ -44,7 +44,9 @@ namespace log4net.Config
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
 	[AttributeUsage(AttributeTargets.Assembly,AllowMultiple=true)]
+#if !NETCORE
 	[Serializable]
+#endif
 	public /*sealed*/ class AliasRepositoryAttribute : Attribute
 	{
 		//
