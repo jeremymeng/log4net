@@ -194,7 +194,11 @@ namespace log4net.Util
         /// <summary>
         /// Characters illegal in XML 1.0
         /// </summary>
+#if NETCORE
+		private static Regex INVALIDCHARS = new Regex(@"[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD]");
+#else
 		private static Regex INVALIDCHARS=new Regex(@"[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD]",RegexOptions.Compiled);
+#endif
 		#endregion Private Static Fields
 	}
 }

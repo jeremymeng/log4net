@@ -121,7 +121,7 @@ namespace log4net.Appender
 			// Write the string to the Debug system
 			//
 			System.Diagnostics.Debug.Write(RenderLoggingEvent(loggingEvent), loggingEvent.LoggerName);
-	 
+#if !NETCORE
 			//
 			// Flush the Debug system if needed
 			//
@@ -129,6 +129,7 @@ namespace log4net.Appender
 			{
 				System.Diagnostics.Debug.Flush();
 			} 
+#endif
 		}
 
 		/// <summary>

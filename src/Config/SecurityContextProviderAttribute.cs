@@ -45,7 +45,9 @@ namespace log4net.Config
 	/// </remarks>
 	/// <author>Nicko Cadell</author>
 	[AttributeUsage(AttributeTargets.Assembly)]
+#if !NETCORE
 	[Serializable]
+#endif
 	public sealed class SecurityContextProviderAttribute : ConfiguratorAttribute
 	{
 		#region Constructor

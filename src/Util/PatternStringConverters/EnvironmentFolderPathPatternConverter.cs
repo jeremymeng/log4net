@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if !NETCF
+#if !(NETCF || NETCORE) // NETCORE: Environment.SpecialFolder not yet available
 
 using System;
 using System.IO;

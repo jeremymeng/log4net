@@ -18,6 +18,9 @@
 #endregion
 
 using System;
+#if NETCORE
+using System.Reflection;
+#endif
 
 using log4net;
 using log4net.Core;

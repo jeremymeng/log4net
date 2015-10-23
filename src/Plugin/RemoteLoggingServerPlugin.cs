@@ -18,7 +18,7 @@
 #endregion
 
 // .NET Compact Framework 1.0 has no support for System.Runtime.Remoting
-#if !NETCF
+#if !(NETCF || NETCORE)
 
 using System;
 using System.Runtime.Remoting;

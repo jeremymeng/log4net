@@ -36,10 +36,14 @@ namespace log4net.Core
 	/// </remarks>
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
-#if !NETCF
+#if !(NETCF || NETCORE)
 	[Serializable]
 #endif
+#if NETCORE
+	public class LogException : Exception
+#else
 	public class LogException : ApplicationException 
+#endif
 	{
 		#region Public Instance Constructors
 
@@ -88,7 +92,7 @@ namespace log4net.Core
 
 		#region Protected Instance Constructors
 
-#if !NETCF
+#if !(NETCF || NETCORE)
 		/// <summary>
 		/// Serialization constructor
 		/// </summary>

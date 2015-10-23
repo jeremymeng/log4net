@@ -360,4 +360,3 @@ namespace log4net.Layout
 		#endregion Private Static Fields
 	}
 }
-

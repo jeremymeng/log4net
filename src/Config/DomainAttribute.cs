@@ -48,7 +48,9 @@ namespace log4net.Config
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
 	[AttributeUsage(AttributeTargets.Assembly)]
+#if !NETCORE
 	[Serializable]
+#endif
 	[Obsolete("Use RepositoryAttribute instead of DomainAttribute")]
 	public sealed class DomainAttribute : RepositoryAttribute
 	{
