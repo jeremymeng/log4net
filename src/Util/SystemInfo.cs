@@ -18,7 +18,9 @@
 #endregion
 
 using System;
+#if !NETCORE
 using System.Configuration;
+#endif
 using System.Reflection;
 using System.Text;
 using System.IO;
@@ -142,7 +144,7 @@ namespace log4net.Util
 		{
 			get 
 			{
-#if NETCF
+#if NETCF || NETCORE
 				return System.IO.Path.GetDirectoryName(SystemInfo.EntryAssemblyLocation) + System.IO.Path.DirectorySeparatorChar;
 #else
 				return AppDomain.CurrentDomain.BaseDirectory;
@@ -168,7 +170,7 @@ namespace log4net.Util
 		{
 			get 
 			{
-#if NETCF
+#if NETCF || NETCORE
 				return SystemInfo.EntryAssemblyLocation+".config";
 #else
 				return System.AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
@@ -191,6 +193,8 @@ namespace log4net.Util
 			{
 #if NETCF
 				return SystemInfo.NativeEntryAssemblyLocation;
+#elif NETCORE
+				return AppContext.BaseDirectory;
 #else
 				return System.Reflection.Assembly.GetEntryAssembly().Location;
 #endif
@@ -227,6 +231,8 @@ namespace log4net.Util
 				return System.Threading.Thread.CurrentThread.GetHashCode();
 #elif NET_2_0 || NETCF_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
 				return System.Threading.Thread.CurrentThread.ManagedThreadId;
+#elif NETCORE
+				return System.Threading.Tasks.Task.CurrentId ?? -1; // TODO
 #else
 				return AppDomain.GetCurrentThreadId();
 #endif
@@ -283,7 +289,9 @@ namespace log4net.Util
 					{
 						try
 						{
-#if (!SSCLI && !NETCF)
+#if NETCORE
+							s_hostName = Environment.GetEnvironmentVariable("COMPUTERNAME");
+#elif (!SSCLI && !NETCF)
 							s_hostName = Environment.MachineName;
 #endif
 						}
@@ -331,7 +339,7 @@ namespace log4net.Util
 				{
 					try
 					{
-#if !NETCF
+#if !(NETCF || NETCORE)
 						s_appFriendlyName = AppDomain.CurrentDomain.FriendlyName;
 #endif
 					}
@@ -448,6 +456,8 @@ namespace log4net.Util
 		{
 #if NETCF
 			return "Not supported on Microsoft .NET Compact Framework";
+#elif NETCORE
+			return "Not supported on .NET Core";
 #else
 			if (myAssembly.GlobalAssemblyCache)
 			{
@@ -518,7 +528,12 @@ namespace log4net.Util
 		/// </remarks>
 		public static string AssemblyQualifiedName(Type type)
 		{
-			return type.FullName + ", " + type.Assembly.FullName;
+			return type.FullName + ", "
+#if NETCORE
+				+ type.GetTypeInfo().Assembly.FullName;
+#else
+				+ type.Assembly.FullName;
+#endif
 		}
 
 		/// <summary>
@@ -570,7 +585,7 @@ namespace log4net.Util
 		/// </remarks>
 		public static string AssemblyFileName(Assembly myAssembly)
 		{
-#if NETCF
+#if NETCF || NETCORE // Assembly.Location  not yet available on Core
 			// This is not very good because it assumes that only
 			// the entry assembly can be an EXE. In fact multiple
 			// EXEs can be loaded in to a process.
@@ -615,7 +630,11 @@ namespace log4net.Util
 		/// </remarks>
 		public static Type GetTypeFromString(Type relativeType, string typeName, bool throwOnError, bool ignoreCase)
 		{
+#if NETCORE
+			return GetTypeFromString(relativeType.GetTypeInfo().Assembly, typeName, throwOnError, ignoreCase);
+#else
 			return GetTypeFromString(relativeType.Assembly, typeName, throwOnError, ignoreCase);
+#endif
 		}
 
 		/// <summary>
@@ -639,7 +658,11 @@ namespace log4net.Util
 		/// </remarks>
 		public static Type GetTypeFromString(string typeName, bool throwOnError, bool ignoreCase)
 		{
+#if NETCORE
+			return GetTypeFromString(CallingAssemblyWorkaround.GetCallingAssembly(), typeName, throwOnError, ignoreCase);
+#else
 			return GetTypeFromString(Assembly.GetCallingAssembly(), typeName, throwOnError, ignoreCase);
+#endif
 		}
 
 		/// <summary>
@@ -668,7 +691,9 @@ namespace log4net.Util
 			if(typeName.IndexOf(',') == -1)
 			{
 				//LogLog.Debug(declaringType, "SystemInfo: Loading type ["+typeName+"] from assembly ["+relativeAssembly.FullName+"]");
-#if NETCF
+#if NETCORE
+				return relativeAssembly.GetType(typeName, throwOnError, ignoreCase);
+#elif NETCF
 				return relativeAssembly.GetType(typeName, throwOnError);
 #else
 				// Attempt to lookup the type from the relativeAssembly
@@ -948,7 +973,7 @@ namespace log4net.Util
 		{
 			try
 			{
-#if NETCF
+#if NETCF || NETCORE
 				// Configuration APIs are not suported under the Compact Framework
 #elif NET_2_0
 				return ConfigurationManager.AppSettings[key];

@@ -212,7 +212,12 @@ namespace log4net.Util
 				return defaultValue;
 			}
 	
+
+#if NETCORE
+			string s = CultureInfo.InvariantCulture.TextInfo.ToUpper(argValue.Trim());
+#else
 			string s = argValue.Trim().ToUpper(CultureInfo.InvariantCulture);
+#endif
 			long multiplier = 1;
 			int index;
 	
@@ -286,7 +291,11 @@ namespace log4net.Util
 			}
 			else
 			{
+#if NETCORE
+				if (target.GetTypeInfo().IsEnum)
+#else
 				if (target.IsEnum)
+#endif
 				{
 					// Target type is an enum.
 
@@ -303,7 +312,11 @@ namespace log4net.Util
 					if (meth != null)
 					{
 						// Call the Parse method
+#if NETCORE
+						return meth.Invoke(target, new[] { txt });
+#else
 						return meth.Invoke(null, BindingFlags.InvokeMethod, null, new object[] {txt}, CultureInfo.InvariantCulture);
+#endif
 					}
 					else
 					{

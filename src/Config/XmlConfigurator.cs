@@ -17,6 +17,8 @@
 //
 #endregion
 
+#if !NETCORE
+
 using System;
 using System.Xml;
 using System.Collections;
@@ -1130,4 +1132,4 @@ namespace log4net.Config
 	    #endregion Private Static Fields
 	}
 }
-
+#endif // !NETCORE

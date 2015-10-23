@@ -41,7 +41,7 @@ namespace log4net.Util
 	/// </remarks>
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
-#if NETCF
+#if NETCF || NETCORE
 	public class ReadOnlyPropertiesDictionary : IDictionary
 #else
 	[Serializable] public class ReadOnlyPropertiesDictionary : ISerializable, IDictionary
@@ -91,7 +91,7 @@ namespace log4net.Util
 
 		#region Private Instance Constructors
 
-#if !NETCF
+#if !(NETCF || NETCORE)
 		/// <summary>
 		/// Deserialization constructor
 		/// </summary>
@@ -192,7 +192,7 @@ namespace log4net.Util
 
 		#region Implementation of ISerializable
 
-#if !NETCF
+#if !(NETCF || NETCORE)
 		/// <summary>
 		/// Serializes this object into the <see cref="SerializationInfo" /> provided.
 		/// </summary>

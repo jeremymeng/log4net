@@ -17,6 +17,8 @@
 //
 #endregion
 
+#if !NETCORE
+
 using System;
 using System.IO;
 using System.Text;
@@ -246,3 +248,4 @@ namespace log4net.Layout
 		#endregion Private Instance Fields
 	}
 }
+#endif // !NETCORE

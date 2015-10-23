@@ -18,7 +18,8 @@
 #endregion
 
 // SSCLI 1.0 has no support for ADO.NET
-#if !SSCLI
+// Interfaces must be migrated to abstract classes for NETCORE (e.g. IDbCommand -> DbCommand)
+#if !SSCLI && !NETCORE
 
 using System;
 using System.Collections;
@@ -1254,4 +1255,4 @@ namespace log4net.Appender
 	}
 }
 
-#endif // !SSCLI
+#endif // !SSCLI && !NETCORE

@@ -378,10 +378,12 @@ namespace log4net.Appender
 		/// The format of the output will depend on the appender's layout.
 		/// </para>
 		/// </remarks>
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || NETCORE
         [System.Security.SecuritySafeCritical]
 #endif
+#if !NETCORE
         [System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.Demand, UnmanagedCode = true)]
+#endif
         protected override void Append(LoggingEvent loggingEvent) 
 		{
 			int priority = GeneratePriority(m_facility, GetSeverity(loggingEvent.Level));

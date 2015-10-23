@@ -1003,12 +1003,21 @@ namespace log4net.Appender
 		{
 			if (null != arrayFiles)
 			{
+#if NETCORE
+				string baseFileLower = CultureInfo.InvariantCulture.TextInfo.ToLower(baseFile);
+
+				foreach(string curFileName in arrayFiles)
+				{
+					InitializeFromOneFile(baseFileLower, CultureInfo.InvariantCulture.TextInfo.ToLower(curFileName));
+				}
+#else
 				string baseFileLower = baseFile.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
 				foreach(string curFileName in arrayFiles)
 				{
 					InitializeFromOneFile(baseFileLower, curFileName.ToLower(System.Globalization.CultureInfo.InvariantCulture));
 				}
+#endif
 			}
 		}
 

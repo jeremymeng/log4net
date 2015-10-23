@@ -295,7 +295,11 @@ namespace log4net.Appender
 					{
 						if (m_writer != null)
 						{
-							m_writer.Close();
+#if NETCORE
+                            m_writer.Dispose();
+#else
+                            m_writer.Close();
+#endif
 							m_writer = null;
 						}
 					}
@@ -311,7 +315,11 @@ namespace log4net.Appender
 
 						try
 						{
-							m_socket.Close();
+#if NETCORE
+                            m_socket.Dispose();
+#else
+                            m_socket.Close();
+#endif
 						}
 						catch { }
 
@@ -502,7 +510,11 @@ namespace log4net.Appender
 
 				try
 				{
-					localSocket.Close();
+#if NETCORE
+                    localSocket.Dispose();
+#else
+                    localSocket.Close();
+#endif
 				}
 				catch 
 				{ 

@@ -17,6 +17,8 @@
 //
 #endregion
 
+#if !NETCORE
+
 using System;
 using System.Text;
 using System.Xml;
@@ -361,3 +363,4 @@ namespace log4net.Layout
 	}
 }
 
+#endif // !NETCORE

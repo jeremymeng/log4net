@@ -25,6 +25,8 @@ using System.IO;
 using log4net.Core;
 using log4net.Util;
 
+#if !NETCORE
+
 namespace log4net.Layout
 {
 	/// <summary>
@@ -249,4 +251,4 @@ method="run" file="Generator.java" line="94"/>
 		}
 	}
 }
-
+#endif // !NETCORE

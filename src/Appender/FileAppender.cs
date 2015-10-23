@@ -158,6 +158,12 @@ namespace log4net.Appender
 
 			#region Override Implementation of Stream
 
+#if NETCORE
+			public void Close()
+			{
+				m_lockingModel.CloseFile();
+			}
+#else
 			// Methods
 			public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
 			{
@@ -192,6 +198,8 @@ namespace log4net.Appender
 			{
 				//No-op, it has already been handled
 			}
+#endif
+
 			public override void Flush() 
 			{
 				AssertLocked();
@@ -217,7 +225,11 @@ namespace log4net.Appender
 			}
 			void IDisposable.Dispose() 
 			{
-				Close();
+#if NETCORE
+                Dispose();
+#else
+                Close();
+#endif
 			}
 			public override void Write(byte[] buffer, int offset, int count) 
 			{
@@ -458,9 +470,13 @@ namespace log4net.Appender
             {
                 using (CurrentAppender.SecurityContext.Impersonate(this))
                 {
+#if NETCORE
+                    stream.Dispose();
+#else
                     stream.Close();
+#endif
                 }
-           }
+            }
 		}
 
 		/// <summary>
@@ -703,7 +719,11 @@ namespace log4net.Appender
                 }
                 finally {
                     m_mutex.ReleaseMutex();
+#if NETCORE
+                    m_mutex.Dispose();
+#else
                     m_mutex.Close();
+#endif
                     m_mutexClosed = true;
                 }
             }
@@ -1325,7 +1345,11 @@ namespace log4net.Appender
 		/// <summary>
 		/// The encoding to use for the file stream.
 		/// </summary>
+#if NETCORE
+		private Encoding m_encoding = Encoding.Unicode;
+#else
 		private Encoding m_encoding = Encoding.Default;
+#endif
 
 		/// <summary>
 		/// The security context to use for privileged calls

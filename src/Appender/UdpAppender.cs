@@ -447,7 +447,11 @@ namespace log4net.Appender
 
 			if (this.Client != null) 
 			{
+#if NETCORE
+				this.Client.Dispose();
+#else
 				this.Client.Close();
+#endif
 				this.Client = null;
 			}
 		}
@@ -536,7 +540,11 @@ namespace log4net.Appender
 		/// <summary>
 		/// The encoding to use for the packet.
 		/// </summary>
+#if NETCORE
+		private Encoding m_encoding = Encoding.Unicode;
+#else
 		private Encoding m_encoding = Encoding.Default;
+#endif
 
 		#endregion Private Instance Fields
 	}
