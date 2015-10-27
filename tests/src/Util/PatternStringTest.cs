@@ -28,6 +28,7 @@ namespace log4net.Tests.Util
     [TestFixture]
     public class PatternStringTest
     {
+        // failure expected on NETCORE: Environment.SpecialFolder unavailable
         [Test]
         public void TestEnvironmentFolderPathPatternConverter()
         {

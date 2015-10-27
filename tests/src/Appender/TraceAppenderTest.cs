@@ -55,6 +55,7 @@ namespace log4net.Tests.Appender
                 categoryTraceListener.Category);
         }
 
+        // failure expected on NETCORE: LocationInfo can't get method names
         [Test]
         public void MethodNameCategoryTest()
         {
@@ -81,7 +82,6 @@ namespace log4net.Tests.Appender
                 categoryTraceListener.Category);
         }
     }
-
     public class CategoryTraceListener : TraceListener
     {
         private string lastCategory;

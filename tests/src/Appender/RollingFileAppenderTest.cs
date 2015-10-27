@@ -1434,7 +1434,11 @@ namespace log4net.Tests.Appender
 			Repository.Hierarchy.Hierarchy h = (Repository.Hierarchy.Hierarchy)LogManager.GetRepository("TestRepository");
 			h.ResetConfiguration();
 			//Replace the repository selector so that we can recreate the hierarchy with the same name if necessary
+#if NETCF
+			LoggerManager.RepositorySelector = new CompactRepositorySelector(typeof(log4net.Repository.Hierarchy.Hierarchy));
+#else
 			LoggerManager.RepositorySelector = new DefaultRepositorySelector(typeof(log4net.Repository.Hierarchy.Hierarchy));
+#endif
 		}
 
 		private static void AssertFileEquals(string filename, string contents)

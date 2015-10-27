@@ -99,6 +99,7 @@ namespace log4net.Tests.Layout
 			stringAppender.Reset();
 		}
 
+        // failure expected on NETCORE: can't get stack traces
         [Test]
         public void TestStackTracePattern()
         {
