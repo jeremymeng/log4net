@@ -33,6 +33,7 @@ namespace log4net.Tests.Hierarchy
     [TestFixture]
     public class Hierarchy
     {
+#if !NETCORE // NETCORE: XmlConfigurator unavailable
         [Test]
         public void SetRepositoryPropertiesInConfigFile()
         {
@@ -59,7 +60,7 @@ namespace log4net.Tests.Hierarchy
             Assert.AreEqual("4", rep.Properties["two-plus-two"]);
             Assert.IsNull(rep.Properties["one-plus-one"]);
         }
-
+#endif
         [Test]
         public void AddingMultipleAppenders()
         {
@@ -94,6 +95,7 @@ namespace log4net.Tests.Hierarchy
             Assert.AreEqual(1, beta.Counter);
         }
 
+#if !NETCORE // NETCORE: XmlConfigurator unavailable
         [Test]
 	// LOG4NET-343
         public void LoggerNameCanConsistOfASingleDot()
@@ -160,5 +162,6 @@ namespace log4net.Tests.Hierarchy
             ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
             XmlConfigurator.Configure(rep, log4netConfig["log4net"]);
         }
+#endif // !NETCORE
     }
 }

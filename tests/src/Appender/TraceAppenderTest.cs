@@ -55,7 +55,11 @@ namespace log4net.Tests.Appender
                 categoryTraceListener.Category);
         }
 
+#if NETCORE
+        [Test, Ignore("LocationInfo can't get method names on NETCORE due to unavailable stack frame APIs")]
+#else
         [Test]
+#endif
         public void MethodNameCategoryTest()
         {
             CategoryTraceListener categoryTraceListener = new CategoryTraceListener();
@@ -81,7 +85,6 @@ namespace log4net.Tests.Appender
                 categoryTraceListener.Category);
         }
     }
-
     public class CategoryTraceListener : TraceListener
     {
         private string lastCategory;

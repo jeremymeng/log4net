@@ -99,7 +99,11 @@ namespace log4net.Tests.Layout
 			stringAppender.Reset();
 		}
 
+#if NETCORE
+        [Test, Ignore("System.Diagnostics.StackTrace isn't fully implemented on NETCORE")]
+#else
         [Test]
+#endif
         public void TestStackTracePattern()
         {
             StringAppender stringAppender = new StringAppender();

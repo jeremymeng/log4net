@@ -28,7 +28,11 @@ namespace log4net.Tests.Util
     [TestFixture]
     public class PatternStringTest
     {
+#if NETCORE
+        [Test, Ignore("Environment.SpecialFolder is unavailable on NETCORE")]
+#else
         [Test]
+#endif
         public void TestEnvironmentFolderPathPatternConverter()
         {
             string[] specialFolderNames = Enum.GetNames(typeof(Environment.SpecialFolder));
