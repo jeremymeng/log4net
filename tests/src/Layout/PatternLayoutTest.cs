@@ -99,7 +99,11 @@ namespace log4net.Tests.Layout
 			stringAppender.Reset();
 		}
 
+#if DOTNET5_5
+        [Test, Ignore("System.Diagnostics.StackTrace isn't fully implemented on DOTNET5_5")]
+#else
         [Test]
+#endif
         public void TestStackTracePattern()
         {
             StringAppender stringAppender = new StringAppender();

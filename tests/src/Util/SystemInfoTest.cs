@@ -23,7 +23,7 @@ using log4net.Util;
 
 using NUnit.Framework;
 
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || DOTNET5_5
 using System.Linq.Expressions;
 using System.Reflection;
 #endif
@@ -37,7 +37,7 @@ namespace log4net.Tests.Util
 	public class SystemInfoTest
 	{
 
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || DOTNET5_5
 		/// <summary>
 		/// It's "does not throw not supported exception" NOT
 		/// "returns 'Dynamic Assembly' string for dynamic assemblies" by purpose.
@@ -96,6 +96,7 @@ namespace log4net.Tests.Util
 			Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load lower");
 		}
 
+#if !DOTNET5_5 // DOTNET5_5: relative assembly type lookups reliant on Assembly.GetCallingAssembly() won't work
 		[Test]
 		public void TestGetTypeFromStringRelative()
 		{
@@ -110,6 +111,7 @@ namespace log4net.Tests.Util
 			t = SystemInfo.GetTypeFromString("log4net.tests.util.systeminfotest", false, true);
 			Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load lower");
 		}
+#endif
 
 		[Test]
 		public void TestGetTypeFromStringSearch()

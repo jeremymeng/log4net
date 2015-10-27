@@ -55,7 +55,11 @@ namespace log4net.Tests.Appender
                 categoryTraceListener.Category);
         }
 
+#if DOTNET5_5
+        [Test, Ignore("LocationInfo can't get method names on DOTNET5_5 due to unavailable stack frame APIs")]
+#else
         [Test]
+#endif
         public void MethodNameCategoryTest()
         {
             CategoryTraceListener categoryTraceListener = new CategoryTraceListener();
