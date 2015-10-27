@@ -96,6 +96,7 @@ namespace log4net.Tests.Util
 			Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load lower");
 		}
 
+#if !DOTNET5_5 // DOTNET5_5: relative assembly type lookups reliant on Assembly.GetCallingAssembly() won't work
 		[Test]
 		public void TestGetTypeFromStringRelative()
 		{
@@ -110,6 +111,7 @@ namespace log4net.Tests.Util
 			t = SystemInfo.GetTypeFromString("log4net.tests.util.systeminfotest", false, true);
 			Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load lower");
 		}
+#endif
 
 		[Test]
 		public void TestGetTypeFromStringSearch()
