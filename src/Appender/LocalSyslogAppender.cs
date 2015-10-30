@@ -337,7 +337,7 @@ namespace log4net.Appender
 		/// <see cref="ActivateOptions"/> must be called again.
 		/// </para>
 		/// </remarks>
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || NETCORE
         [System.Security.SecuritySafeCritical]
 #endif
         public override void ActivateOptions()
@@ -402,7 +402,7 @@ namespace log4net.Appender
 		/// Close the syslog when the appender is closed
 		/// </para>
 		/// </remarks>
-#if NET_4_0 || MONO_4_0
+#if NET_4_0 || MONO_4_0 || NETCORE
         [System.Security.SecuritySafeCritical]
 #endif
         protected override void OnClose()

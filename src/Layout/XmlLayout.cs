@@ -17,8 +17,6 @@
 //
 #endregion
 
-#if !NETCORE
-
 using System;
 using System.Text;
 using System.Xml;
@@ -362,5 +360,3 @@ namespace log4net.Layout
 		#endregion Private Static Fields
 	}
 }
-
-#endif // !NETCORE
