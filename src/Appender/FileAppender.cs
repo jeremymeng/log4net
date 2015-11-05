@@ -159,9 +159,10 @@ namespace log4net.Appender
 			#region Override Implementation of Stream
 
 #if NETCORE
-			public void Close()
+			protected override void Dispose(bool disposing)
 			{
 				m_lockingModel.CloseFile();
+				base.Dispose(disposing);
 			}
 #else
 			// Methods
@@ -226,7 +227,7 @@ namespace log4net.Appender
 			void IDisposable.Dispose() 
 			{
 #if NETCORE
-                Dispose();
+                Dispose(true);
 #else
                 Close();
 #endif
