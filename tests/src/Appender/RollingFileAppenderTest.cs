@@ -141,7 +141,7 @@ namespace log4net.Tests.Appender
 		/// <param name="iExpectedCount"></param>
 		private static void VerifyFileCount(int iExpectedCount)
 		{
-			ArrayList alFiles = GetExistingFiles(c_fileName);
+			ArrayList alFiles = GetExistingFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, c_fileName));
 			Assert.IsNotNull(alFiles);
 			Assert.AreEqual(iExpectedCount, alFiles.Count);
 		}
@@ -152,7 +152,7 @@ namespace log4net.Tests.Appender
 		/// <param name="iFileNumber"></param>
 		private static void CreateFile(int iFileNumber)
 		{
-			FileInfo fileInfo = new FileInfo(MakeFileName(c_fileName, iFileNumber));
+			FileInfo fileInfo = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, MakeFileName(c_fileName, iFileNumber)));
 
 			FileStream fileStream = null;
 			try
@@ -192,13 +192,13 @@ namespace log4net.Tests.Appender
 		/// </summary>
 		private static void DeleteTestFiles()
 		{
-			ArrayList alFiles = GetExistingFiles(c_fileName);
+			ArrayList alFiles = GetExistingFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, c_fileName));
 			foreach(string sFile in alFiles)
 			{
 				try
 				{
 					Debug.WriteLine("Deleting test file " + sFile);
-					File.Delete(sFile);
+					File.Delete(Path.Combine(TestContext.CurrentContext.TestDirectory, sFile));
 				}
 				catch(Exception ex)
 				{
@@ -390,14 +390,14 @@ namespace log4net.Tests.Appender
 		/// <param name="fileEntries"></param>
 		private static void VerifyFileConditions(string sBaseFileName, RollFileEntry[] fileEntries)
 		{
-			ArrayList alExisting = GetExistingFiles(sBaseFileName);
+			ArrayList alExisting = GetExistingFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, sBaseFileName));
 			if (null != fileEntries)
 			{
 				//					AssertEquals( "File count mismatch", alExisting.Count, fileEntries.Length );
 				foreach(RollFileEntry rollFile in fileEntries)
 				{
 					string sFileName = rollFile.FileName;
-					FileInfo file = new FileInfo(sFileName);
+					FileInfo file = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, sFileName));
 
 					if (rollFile.FileLength > 0)
 					{
@@ -1473,7 +1473,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestLogOutput()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 			SilentErrorHandler sh = new SilentErrorHandler();
 			ILogger log = CreateLogger(filename, new FileAppender.ExclusiveLock(), sh);
 			log.Log(GetType(), Level.Info, "This is a message", null);
@@ -1490,7 +1490,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestExclusiveLockFails()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 
 			FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
@@ -1512,7 +1512,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestExclusiveLockRecovers()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 
 			FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
@@ -1534,7 +1534,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestExclusiveLockLocks()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 			bool locked = false;
 
 			SilentErrorHandler sh = new SilentErrorHandler();
@@ -1574,7 +1574,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestMinimalLockFails()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 
 			FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
@@ -1596,7 +1596,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestMinimalLockRecovers()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 
 			FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
@@ -1618,7 +1618,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestMinimalLockUnlocks()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 			bool locked;
 
 			SilentErrorHandler sh = new SilentErrorHandler();
@@ -1644,7 +1644,7 @@ namespace log4net.Tests.Appender
         /// </summary>
         [Test]
         public void TestInterProcessLockFails() {
-            String filename = "test.log";
+            String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 
             FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
             fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
@@ -1665,7 +1665,7 @@ namespace log4net.Tests.Appender
         /// </summary>
         [Test]
         public void TestInterProcessLockRecovers() {
-            String filename = "test.log";
+            String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 
             FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
             fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
@@ -1686,7 +1686,7 @@ namespace log4net.Tests.Appender
         /// </summary>
         [Test]
         public void TestInterProcessLockUnlocks() {
-            String filename = "test.log";
+            String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
             bool locked;
 
             SilentErrorHandler sh = new SilentErrorHandler();
@@ -1712,7 +1712,7 @@ namespace log4net.Tests.Appender
 		[Test]
 		public void TestInterProcessLockRoll()
 		{
-			String filename = "test.log";
+			String filename = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.log");
 			bool locked;
 
 			SilentErrorHandler sh = new SilentErrorHandler();
