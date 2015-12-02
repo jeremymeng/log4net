@@ -174,30 +174,30 @@ namespace log4net.Appender
 			set { m_connectionString = value; }
 		}
 
-		/// <summary>
-		/// The appSettings key from App.Config that contains the connection string.
-		/// </summary>
-		public string AppSettingsKey
-		{
-			get { return m_appSettingsKey; }
-			set { m_appSettingsKey = value; }
-		}
+	    /// <summary>
+	    /// The appSettings key from App.Config that contains the connection string.
+	    /// </summary>
+	    public string AppSettingsKey
+	    {
+	        get { return m_appSettingsKey; }
+	        set { m_appSettingsKey = value; }
+	    }
 
 #if NET_2_0
-		/// <summary>
-		/// The connectionStrings key from App.Config that contains the connection string.
-		/// </summary>
-		/// <remarks>
-		/// This property requires at least .NET 2.0.
-		/// </remarks>
-		public string ConnectionStringName
-		{
-			get { return m_connectionStringName; }
-			set { m_connectionStringName = value; }
-		}
+	    /// <summary>
+        /// The connectionStrings key from App.Config that contains the connection string.
+	    /// </summary>
+        /// <remarks>
+        /// This property requires at least .NET 2.0.
+        /// </remarks>
+	    public string ConnectionStringName
+	    {
+	        get { return m_connectionStringName; }
+	        set { m_connectionStringName = value; }
+	    }
 #endif
 
-		/// <summary>
+	    /// <summary>
 		/// Gets or sets the type name of the <see cref="IDbConnection"/> connection
 		/// that should be created.
 		/// </summary>
@@ -326,7 +326,7 @@ namespace log4net.Appender
 		/// of the current thread.
 		/// </para>
 		/// </remarks>
-		public SecurityContext SecurityContext
+		public SecurityContext SecurityContext 
 		{
 			get { return m_securityContext; }
 			set { m_securityContext = value; }
@@ -379,7 +379,7 @@ namespace log4net.Appender
 		/// underlying <see cref="IDbConnection" /> returned from <see cref="Connection" /> if 
 		/// you require access beyond that which <see cref="AdoNetAppender" /> provides.
 		/// </remarks>
-		protected IDbConnection Connection
+		protected IDbConnection Connection 
 		{
 			get { return m_dbConnection; }
 			set { m_dbConnection = value; }
@@ -405,7 +405,7 @@ namespace log4net.Appender
 		/// <see cref="ActivateOptions"/> must be called again.
 		/// </para>
 		/// </remarks>
-		override public void ActivateOptions()
+		override public void ActivateOptions() 
 		{
 			base.ActivateOptions();
 
@@ -429,10 +429,10 @@ namespace log4net.Appender
 		/// Closes the database command and database connection.
 		/// </para>
 		/// </remarks>
-		override protected void OnClose()
+		override protected void OnClose() 
 		{
 			base.OnClose();
-			DiposeConnection();
+            DiposeConnection();
 		}
 
 		#endregion
@@ -467,16 +467,16 @@ namespace log4net.Appender
 					// NJC - Do this on 2 lines because it can confuse the debugger
 					using (IDbTransaction dbTran = Connection.BeginTransaction())
 					{
-						try
-						{
-							SendBuffer(dbTran, events);
+					try
+					{
+						SendBuffer(dbTran, events);
 
-							// commit transaction
-							dbTran.Commit();
-						}
+						// commit transaction
+						dbTran.Commit();
+					}
 						catch (Exception ex)
-						{
-							// rollback the transaction
+					{
+						// rollback the transaction
 							try
 							{
 								dbTran.Rollback();
@@ -486,10 +486,10 @@ namespace log4net.Appender
 								// Ignore exception
 							}
 
-							// Can't insert into the database. That's a bad thing
-							ErrorHandler.Error("Exception while writing to database", ex);
-						}
+						// Can't insert into the database. That's a bad thing
+						ErrorHandler.Error("Exception while writing to database", ex);
 					}
+				}
 				}
 				else
 				{
@@ -621,71 +621,71 @@ namespace log4net.Appender
 			}
 		}
 
-		/// <summary>
-		/// Creates an <see cref="IDbConnection"/> instance used to connect to the database.
-		/// </summary>
-		/// <remarks>
-		/// This method is called whenever a new IDbConnection is needed (i.e. when a reconnect is necessary).
-		/// </remarks>
-		/// <param name="connectionType">The <see cref="Type"/> of the <see cref="IDbConnection"/> object.</param>
-		/// <param name="connectionString">The connectionString output from the ResolveConnectionString method.</param>
-		/// <returns>An <see cref="IDbConnection"/> instance with a valid connection string.</returns>
-		virtual protected IDbConnection CreateConnection(Type connectionType, string connectionString)
-		{
-			IDbConnection connection = (IDbConnection)Activator.CreateInstance(connectionType);
-			connection.ConnectionString = connectionString;
-			return connection;
-		}
+        /// <summary>
+        /// Creates an <see cref="IDbConnection"/> instance used to connect to the database.
+        /// </summary>
+        /// <remarks>
+        /// This method is called whenever a new IDbConnection is needed (i.e. when a reconnect is necessary).
+        /// </remarks>
+        /// <param name="connectionType">The <see cref="Type"/> of the <see cref="IDbConnection"/> object.</param>
+        /// <param name="connectionString">The connectionString output from the ResolveConnectionString method.</param>
+        /// <returns>An <see cref="IDbConnection"/> instance with a valid connection string.</returns>
+        virtual protected IDbConnection CreateConnection(Type connectionType, string connectionString)
+        {
+            IDbConnection connection = (IDbConnection)Activator.CreateInstance(connectionType);
+            connection.ConnectionString = connectionString;
+            return connection;
+        }
 
-		/// <summary>
-		/// Resolves the connection string from the ConnectionString, ConnectionStringName, or AppSettingsKey
-		/// property.
-		/// </summary>
-		/// <remarks>
-		/// ConnectiongStringName is only supported on .NET 2.0 and higher.
-		/// </remarks>
-		/// <param name="connectionStringContext">Additional information describing the connection string.</param>
-		/// <returns>A connection string used to connect to the database.</returns>
-		virtual protected string ResolveConnectionString(out string connectionStringContext)
-		{
+	    /// <summary>
+        /// Resolves the connection string from the ConnectionString, ConnectionStringName, or AppSettingsKey
+        /// property.
+        /// </summary>
+        /// <remarks>
+        /// ConnectiongStringName is only supported on .NET 2.0 and higher.
+        /// </remarks>
+        /// <param name="connectionStringContext">Additional information describing the connection string.</param>
+        /// <returns>A connection string used to connect to the database.</returns>
+        virtual protected string ResolveConnectionString(out string connectionStringContext)
+        {
 			if (ConnectionString != null && ConnectionString.Length > 0)
-			{
-				connectionStringContext = "ConnectionString";
+            {
+                connectionStringContext = "ConnectionString";
 				return ConnectionString;
-			}
+            }
 
 #if NET_2_0
 			if (!String.IsNullOrEmpty(ConnectionStringName))
-			{
+            {
 				ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[ConnectionStringName];
-				if (settings != null)
-				{
-					connectionStringContext = "ConnectionStringName";
-					return settings.ConnectionString;
-				}
-				else
-				{
+                if (settings != null)
+                {
+                    connectionStringContext = "ConnectionStringName";
+                    return settings.ConnectionString;
+                }
+                else
+                {
 					throw new LogException("Unable to find [" + ConnectionStringName + "] ConfigurationManager.ConnectionStrings item");
-				}
-			}
+                }
+            }
 #endif
 
 			if (AppSettingsKey != null && AppSettingsKey.Length > 0)
-			{
-				connectionStringContext = "AppSettingsKey";
+            {
+                connectionStringContext = "AppSettingsKey";
 				string appSettingsConnectionString = SystemInfo.GetAppSetting(AppSettingsKey);
-				if (appSettingsConnectionString == null || appSettingsConnectionString.Length == 0)
-				{
+                if (appSettingsConnectionString == null || appSettingsConnectionString.Length == 0)
+                {
 					throw new LogException("Unable to find [" + AppSettingsKey + "] AppSettings key.");
-				}
-				return appSettingsConnectionString;
-			}
+                }
+                return appSettingsConnectionString;
+            }
 
-			connectionStringContext = "Unable to resolve connection string from ConnectionString, ConnectionStrings, or AppSettings.";
-			return string.Empty;
-		}
+            connectionStringContext = "Unable to resolve connection string from ConnectionString, ConnectionStrings, or AppSettings.";
+            return string.Empty;
+        }
 
-		/// <summary>
+	    /// <summary>
 		/// Retrieves the class type of the ADO.NET provider.
 		/// </summary>
 		/// <remarks>
@@ -715,67 +715,67 @@ namespace log4net.Appender
 
 		#endregion // Protected Instance Methods
 
-		#region Private Instance Methods
+        #region Private Instance Methods
 
-		/// <summary>
-		/// Connects to the database.
-		/// </summary>		
-		private void InitializeDatabaseConnection()
-		{
-			string connectionStringContext = "Unable to determine connection string context.";
-			string resolvedConnectionString = string.Empty;
+        /// <summary>
+        /// Connects to the database.
+        /// </summary>		
+        private void InitializeDatabaseConnection()
+        {
+            string connectionStringContext = "Unable to determine connection string context.";
+            string resolvedConnectionString = string.Empty;
 
-			try
-			{
-				DiposeConnection();
+            try
+            {
+                DiposeConnection();
 
-				// Set the connection string
-				resolvedConnectionString = ResolveConnectionString(out connectionStringContext);
+                // Set the connection string
+                resolvedConnectionString = ResolveConnectionString(out connectionStringContext);
 
 				Connection = CreateConnection(ResolveConnectionType(), resolvedConnectionString);
 
-				using (SecurityContext.Impersonate(this))
-				{
-					// Open the database connection
+                using (SecurityContext.Impersonate(this))
+                {
+                    // Open the database connection
 					Connection.Open();
-				}
-			}
-			catch (Exception e)
-			{
-				// Sadly, your connection string is bad.
-				ErrorHandler.Error("Could not open database connection [" + resolvedConnectionString + "]. Connection string context [" + connectionStringContext + "].", e);
+                }
+            }
+            catch (Exception e)
+            {
+                // Sadly, your connection string is bad.
+                ErrorHandler.Error("Could not open database connection [" + resolvedConnectionString + "]. Connection string context [" + connectionStringContext + "].", e);
 
 				Connection = null;
-			}
-		}
+            }
+        }
 
-		/// <summary>
-		/// Cleanup the existing connection.
-		/// </summary>
-		/// <remarks>
-		/// Calls the IDbConnection's <see cref="IDbConnection.Close"/> method.
-		/// </remarks>
-		private void DiposeConnection()
-		{
+        /// <summary>
+        /// Cleanup the existing connection.
+        /// </summary>
+        /// <remarks>
+        /// Calls the IDbConnection's <see cref="IDbConnection.Close"/> method.
+        /// </remarks>
+        private void DiposeConnection()
+        {
 			if (Connection != null)
-			{
-				try
-				{
+            {
+                try
+                {
 					Connection.Close();
-				}
-				catch (Exception ex)
-				{
-					LogLog.Warn(declaringType, "Exception while disposing cached connection object", ex);
-				}
+                }
+                catch (Exception ex)
+                {
+                    LogLog.Warn(declaringType, "Exception while disposing cached connection object", ex);
+                }
 				Connection = null;
-			}
-		}
+            }
+        }
 
-		#endregion // Private Instance Methods
+        #endregion // Private Instance Methods
 
-		#region Protected Instance Fields
+        #region Protected Instance Fields
 
-		/// <summary>
+        /// <summary>
 		/// The list of <see cref="AdoNetAppenderParameter"/> objects.
 		/// </summary>
 		/// <remarks>
@@ -805,19 +805,19 @@ namespace log4net.Appender
 		/// </summary>
 		private string m_connectionString;
 
-		/// <summary>
-		/// The appSettings key from App.Config that contains the connection string.
-		/// </summary>
-		private string m_appSettingsKey;
+        /// <summary>
+        /// The appSettings key from App.Config that contains the connection string.
+        /// </summary>
+        private string m_appSettingsKey;
 
 #if NET_2_0
-		/// <summary>
-		/// The connectionStrings key from App.Config that contains the connection string.
-		/// </summary>
-		private string m_connectionStringName;
+        /// <summary>
+        /// The connectionStrings key from App.Config that contains the connection string.
+        /// </summary>
+        private string m_connectionStringName;
 #endif
 
-		/// <summary>
+        /// <summary>
 		/// String type name of the <see cref="IDbConnection"/> type name.
 		/// </summary>
 		private string m_connectionType;
@@ -844,18 +844,18 @@ namespace log4net.Appender
 
 		#endregion // Private Instance Fields
 
-		#region Private Static Fields
+        #region Private Static Fields
 
-		/// <summary>
-		/// The fully qualified type of the AdoNetAppender class.
-		/// </summary>
-		/// <remarks>
-		/// Used by the internal logger to record the Type of the
-		/// log message.
-		/// </remarks>
-		private readonly static Type declaringType = typeof(AdoNetAppender);
+        /// <summary>
+        /// The fully qualified type of the AdoNetAppender class.
+        /// </summary>
+        /// <remarks>
+        /// Used by the internal logger to record the Type of the
+        /// log message.
+        /// </remarks>
+        private readonly static Type declaringType = typeof(AdoNetAppender);
 
-		#endregion Private Static Fields
+        #endregion Private Static Fields
 	}
 
 	/// <summary>
@@ -932,9 +932,9 @@ namespace log4net.Appender
 		public DbType DbType
 		{
 			get { return m_dbType; }
-			set
-			{
-				m_dbType = value;
+			set 
+			{ 
+				m_dbType = value; 
 				m_inferType = false;
 			}
 		}
@@ -955,9 +955,9 @@ namespace log4net.Appender
 		/// </para>
 		/// </remarks>
 		/// <seealso cref="IDbDataParameter.Precision" />
-		public byte Precision
+		public byte Precision 
 		{
-			get { return m_precision; }
+			get { return m_precision; } 
 			set { m_precision = value; }
 		}
 
@@ -977,7 +977,7 @@ namespace log4net.Appender
 		/// </para>
 		/// </remarks>
 		/// <seealso cref="IDbDataParameter.Scale" />
-		public byte Scale
+		public byte Scale 
 		{
 			get { return m_scale; }
 			set { m_scale = value; }
@@ -997,12 +997,12 @@ namespace log4net.Appender
 		/// This property is optional. If not specified the ADO.NET provider 
 		/// will attempt to infer the size from the value.
 		/// </para>
-		/// <para>
-		/// For BLOB data types like VARCHAR(max) it may be impossible to infer the value automatically, use -1 as the size in this case.
-		/// </para>
+        /// <para>
+        /// For BLOB data types like VARCHAR(max) it may be impossible to infer the value automatically, use -1 as the size in this case.
+        /// </para>
 		/// </remarks>
 		/// <seealso cref="IDbDataParameter.Size" />
-		public int Size
+		public int Size 
 		{
 			get { return m_size; }
 			set { m_size = value; }

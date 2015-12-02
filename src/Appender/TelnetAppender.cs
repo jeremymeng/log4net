@@ -17,6 +17,7 @@
 //
 #endregion
 
+#if FEATURE_TELNETAPPENDER
 using System;
 using System.Collections;
 using System.Globalization;
@@ -54,7 +55,7 @@ namespace log4net.Appender
 		private SocketHandler m_handler;
 		private int m_listeningPort = 23;
 
-		#region Constructor
+#region Constructor
 
 		/// <summary>
 		/// Default constructor
@@ -68,9 +69,9 @@ namespace log4net.Appender
 		{
 		}
 
-		#endregion
+#endregion
 
-	    #region Private Static Fields
+#region Private Static Fields
 
 	    /// <summary>
 	    /// The fully qualified type of the TelnetAppender class.
@@ -81,7 +82,7 @@ namespace log4net.Appender
 	    /// </remarks>
 	    private readonly static Type declaringType = typeof(TelnetAppender);
 
-	    #endregion Private Static Fields
+#endregion Private Static Fields
 
 		/// <summary>
 		/// Gets or sets the TCP port number on which this <see cref="TelnetAppender"/> will listen for connections.
@@ -120,7 +121,7 @@ namespace log4net.Appender
 			}
 		}
 
-		#region Override implementation of AppenderSkeleton
+#region Override implementation of AppenderSkeleton
 
 		/// <summary>
 		/// Overrides the parent method to close the socket handler
@@ -206,9 +207,9 @@ namespace log4net.Appender
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region SocketHandler helper class
+#region SocketHandler helper class
 
 		/// <summary>
 		/// Helper class to manage connected clients
@@ -279,7 +280,7 @@ namespace log4net.Appender
 					m_writer.Flush();
 				}
 
-				#region IDisposable Members
+#region IDisposable Members
 
 				/// <summary>
 				/// Cleanup the clients connection
@@ -327,7 +328,7 @@ namespace log4net.Appender
 					}
 				}
 
-				#endregion
+#endregion
 			}
 		
 			/// <summary>
@@ -478,7 +479,7 @@ namespace log4net.Appender
 				}
 			}
 
-			#region IDisposable Members
+#region IDisposable Members
 
 			/// <summary>
 			/// Close all network connections
@@ -521,9 +522,10 @@ namespace log4net.Appender
 				}			
 			}
 
-			#endregion
+#endregion
 		}
 
-		#endregion
+#endregion
 	}
 }
+#endif

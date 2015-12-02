@@ -17,6 +17,7 @@
 //
 #endregion
 
+#if FEATURE_UDPAPPENDER
 using System;
 
 using log4net.Core;
@@ -74,7 +75,7 @@ namespace log4net.Appender
 		/// </summary>
 		private const int DefaultSyslogPort = 514;
 
-		#region Enumerations
+#region Enumerations
 
 		/// <summary>
 		/// syslog severities
@@ -258,9 +259,9 @@ namespace log4net.Appender
 			Local7 = 23
 		}
 
-		#endregion Enumerations
+#endregion Enumerations
 
-		#region Public Instance Constructors
+#region Public Instance Constructors
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RemoteSyslogAppender" /> class.
@@ -277,9 +278,9 @@ namespace log4net.Appender
 			this.Encoding = System.Text.Encoding.ASCII;
 		}
 
-		#endregion Public Instance Constructors
+#endregion Public Instance Constructors
 
-		#region Public Instance Properties
+#region Public Instance Properties
 
 		/// <summary>
 		/// Message identity
@@ -312,7 +313,7 @@ namespace log4net.Appender
 			set { m_facility = value; }
 		}
 
-		#endregion Public Instance Properties
+#endregion Public Instance Properties
 
 		/// <summary>
 		/// Add a mapping of level to severity
@@ -328,7 +329,7 @@ namespace log4net.Appender
 			m_levelMapping.Add(mapping);
 		}
 
-		#region AppenderSkeleton Implementation
+#region AppenderSkeleton Implementation
 
 		/// <summary>
 		/// This method is called by the <see cref="M:AppenderSkeleton.DoAppend(LoggingEvent)"/> method.
@@ -438,9 +439,9 @@ namespace log4net.Appender
 			m_levelMapping.ActivateOptions();
 		}
 
-		#endregion AppenderSkeleton Implementation
+#endregion AppenderSkeleton Implementation
 
-		#region Protected Members
+#region Protected Members
 
 		/// <summary>
 		/// Translates a log4net level to a syslog severity.
@@ -492,9 +493,9 @@ namespace log4net.Appender
 			return SyslogSeverity.Debug;
 		}
 
-		#endregion Protected Members
+#endregion Protected Members
 
-		#region Public Static Members
+#region Public Static Members
 
 		/// <summary>
 		/// Generate a syslog priority.
@@ -525,9 +526,9 @@ namespace log4net.Appender
 			}
 		}
 
-		#endregion Public Static Members
+#endregion Public Static Members
 
-		#region Private Instances Fields
+#region Private Instances Fields
 
 		/// <summary>
 		/// The facility. The default facility is <see cref="SyslogFacility.User"/>.
@@ -554,9 +555,9 @@ namespace log4net.Appender
 		/// </summary>
 		private const int c_renderBufferMaxCapacity = 1024;
 
-		#endregion Private Instances Fields
+#endregion Private Instances Fields
 
-		#region LevelSeverity LevelMapping Entry
+#region LevelSeverity LevelMapping Entry
 		/// <summary>
 		/// A class to act as a mapping between the level that a logging call is made at and
 		/// the syslog severity that is should be logged at.
@@ -587,6 +588,7 @@ namespace log4net.Appender
 			}
 		}
 
-		#endregion // LevelSeverity LevelMapping Entry
+#endregion // LevelSeverity LevelMapping Entry
 	}
 }
+#endif

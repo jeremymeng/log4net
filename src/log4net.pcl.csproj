@@ -702,4 +702,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-</Project>
+  <PropertyGroup>
+    <NuGetTargetMoniker>.NETPlatform,Version=v5.4</NuGetTargetMoniker>
+  </PropertyGroup></Project>
