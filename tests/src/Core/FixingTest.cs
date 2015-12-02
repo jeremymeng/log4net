@@ -33,7 +33,7 @@ namespace log4net.Tests.Core
 	{
         const string TEST_REPOSITORY = "Test Repository";
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
 		public void CreateRepository()
 		{
             bool exists = false;

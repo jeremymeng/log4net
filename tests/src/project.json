@@ -1,27 +1,28 @@
 ﻿{
   "dependencies": {
-    "NUnit": "2.6.4",
+    "NUnit": "3.0.1",
+    "NUnit3TestAdapter": "3.0.7-ctp-7b",
     "NUnitTestAdapter": "2.0.0",
-    "System.Collections": "4.0.10",
-    "System.Diagnostics.Debug": "4.0.10",
-    "System.Globalization": "4.0.10",
-    "System.IO": "4.0.10",
-    "System.IO.FileSystem": "4.0.1-beta-23409",
-    "System.IO.FileSystem.Primitives": "4.0.0",
-    "System.Resources.ResourceManager": "4.0.0",
-    "System.Runtime": "4.0.20",
-    "System.Runtime.Extensions": "4.0.10",
-    "System.Runtime.Handles": "4.0.0",
-    "System.Text.Encoding": "4.0.10",
-    "System.Threading": "4.0.10",
-    "System.Threading.Tasks": "4.0.10",
-    "System.Xml.ReaderWriter": "4.0.10",
-    "System.Xml.XmlDocument": "4.0.1-beta-23409"
+    "System.Collections": "4.0.11-beta-23516",
+    "System.Diagnostics.Debug": "4.0.11-beta-23516",
+    "System.Globalization": "4.0.11-beta-23516",
+    "System.IO": "4.0.11-beta-23516",
+    "System.IO.FileSystem": "4.0.1-beta-23516",
+    "System.IO.FileSystem.Primitives": "4.0.1-beta-23516",
+    "System.Resources.ResourceManager": "4.0.1-beta-23516",
+    "System.Runtime": "4.0.21-beta-23516",
+    "System.Runtime.Extensions": "4.0.11-beta-23516",
+    "System.Runtime.Handles": "4.0.1-beta-23516",
+    "System.Text.Encoding": "4.0.11-beta-23516",
+    "System.Threading": "4.0.11-beta-23516",
+    "System.Threading.Tasks": "4.0.11-beta-23516",
+    "System.Xml.ReaderWriter": "4.0.11-beta-23516",
+    "System.Xml.XmlDocument": "4.0.1-beta-23516"
   },
   "frameworks": {
-    "net46": { }
+    "net46": {}
   },
   "runtimes": {
-    "win": { }
+    "win": {}
   }
 }
