@@ -17,6 +17,7 @@
 //
 #endregion
 
+#if FEATURE_UDPAPPENDER
 using System;
 using System.Globalization;
 using System.Net;
@@ -549,3 +550,4 @@ namespace log4net.Appender
 		#endregion Private Instance Fields
 	}
 }
+#endif
