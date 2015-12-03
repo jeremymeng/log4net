@@ -409,7 +409,11 @@ namespace log4net.Appender
                     // Grab as a byte array
                     buffer = this.Encoding.GetBytes(builder.ToString());
 
+#if NETCORE
+                    Client.SendAsync(buffer, buffer.Length, RemoteEndPoint).RunSynchronously();
+#else
                     this.Client.Send(buffer, buffer.Length, this.RemoteEndPoint);
+#endif
                 }
             }
             catch (Exception e)

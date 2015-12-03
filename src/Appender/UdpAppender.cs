@@ -403,7 +403,11 @@ namespace log4net.Appender
 			try 
 			{
 				Byte [] buffer = m_encoding.GetBytes(RenderLoggingEvent(loggingEvent).ToCharArray());
+#if NETCORE
+				Client.SendAsync(buffer, buffer.Length, RemoteEndPoint).RunSynchronously();
+#else
 				this.Client.Send(buffer, buffer.Length, this.RemoteEndPoint);
+#endif
 			} 
 			catch (Exception ex) 
 			{
