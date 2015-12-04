@@ -145,7 +145,9 @@ namespace log4net.Appender
 
 			private Stream m_realStream = null;
 			private LockingModelBase m_lockingModel = null;
+#if !DOTNET5_5 // only used in unavailable Stream overrides
 			private int m_readTotal = -1;
+#endif
 			private int m_lockLevel = 0;
 
 			public LockingStream(LockingModelBase locking)
