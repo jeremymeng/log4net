@@ -344,8 +344,12 @@ namespace log4net.Appender
 				m_serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 				m_serverSocket.Bind(new IPEndPoint(IPAddress.Any, port));
-				m_serverSocket.Listen(5);	
+				m_serverSocket.Listen(5);
+#if NETCORE
+				m_serverSocket.AcceptAsync().ContinueWith(OnConnect);
+#else
 				m_serverSocket.BeginAccept(new AsyncCallback(OnConnect), null);
+#endif
 			}
 
 			/// <summary>
@@ -437,12 +441,20 @@ namespace log4net.Appender
 			/// if there are two many open connections you will be disconnected
 			/// </para>
 			/// </remarks>
+#if NETCORE
+			private void OnConnect(System.Threading.Tasks.Task<Socket> acceptTask)
+#else
 			private void OnConnect(IAsyncResult asyncResult)
+#endif
 			{
 				try
 				{
+#if NETCORE
+					Socket socket = acceptTask.Result;
+#else
 					// Block until a client connects
 					Socket socket = m_serverSocket.EndAccept(asyncResult);
+#endif
 
 					LogLog.Debug(declaringType, "Accepting connection from ["+socket.RemoteEndPoint.ToString()+"]");
 					SocketClient client = new SocketClient(socket);
@@ -473,7 +485,11 @@ namespace log4net.Appender
 				{
 					if (m_serverSocket != null)
 					{
+#if NETCORE
+						m_serverSocket.AcceptAsync().ContinueWith(OnConnect);
+#else
 						m_serverSocket.BeginAccept(new AsyncCallback(OnConnect), null);
+#endif
 					}
 				}
 			}
