@@ -121,7 +121,7 @@ namespace log4net.Appender
 			// Write the string to the Debug system
 			//
 			System.Diagnostics.Debug.Write(RenderLoggingEvent(loggingEvent), loggingEvent.LoggerName);
-#if !NETCORE
+#if !DOTNET5_5
 			//
 			// Flush the Debug system if needed
 			//

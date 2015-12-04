@@ -295,7 +295,7 @@ namespace log4net.Appender
 					{
 						if (m_writer != null)
 						{
-#if NETCORE
+#if DOTNET5_5
                             m_writer.Dispose();
 #else
                             m_writer.Close();
@@ -315,7 +315,7 @@ namespace log4net.Appender
 
 						try
 						{
-#if NETCORE
+#if DOTNET5_5
                             m_socket.Dispose();
 #else
                             m_socket.Close();
@@ -345,7 +345,7 @@ namespace log4net.Appender
 
 				m_serverSocket.Bind(new IPEndPoint(IPAddress.Any, port));
 				m_serverSocket.Listen(5);
-#if NETCORE
+#if DOTNET5_5
 				m_serverSocket.AcceptAsync().ContinueWith(OnConnect);
 #else
 				m_serverSocket.BeginAccept(new AsyncCallback(OnConnect), null);
@@ -441,7 +441,7 @@ namespace log4net.Appender
 			/// if there are two many open connections you will be disconnected
 			/// </para>
 			/// </remarks>
-#if NETCORE
+#if DOTNET5_5
 			private void OnConnect(System.Threading.Tasks.Task<Socket> acceptTask)
 #else
 			private void OnConnect(IAsyncResult asyncResult)
@@ -449,7 +449,7 @@ namespace log4net.Appender
 			{
 				try
 				{
-#if NETCORE
+#if DOTNET5_5
 					Socket socket = acceptTask.Result;
 #else
 					// Block until a client connects
@@ -485,7 +485,7 @@ namespace log4net.Appender
 				{
 					if (m_serverSocket != null)
 					{
-#if NETCORE
+#if DOTNET5_5
 						m_serverSocket.AcceptAsync().ContinueWith(OnConnect);
 #else
 						m_serverSocket.BeginAccept(new AsyncCallback(OnConnect), null);
@@ -526,7 +526,7 @@ namespace log4net.Appender
 
 				try
 				{
-#if NETCORE
+#if DOTNET5_5
                     localSocket.Dispose();
 #else
                     localSocket.Close();

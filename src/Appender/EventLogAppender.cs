@@ -19,7 +19,7 @@
 
 // MONO 1.0 Beta mcs does not like #if !A && !B && !C syntax
 
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 // SSCLI 1.0 has no support for EventLog
 #if !SSCLI
 

@@ -27,7 +27,7 @@ namespace log4net.Plugin
 	/// </summary>
 	/// <author>Nicko Cadell</author>
 	public class PluginCollection : ICollection, IList, IEnumerable
-#if !NETCORE
+#if !DOTNET5_5
 		, ICloneable
 #endif
 	{

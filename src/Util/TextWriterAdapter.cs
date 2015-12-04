@@ -149,7 +149,7 @@ namespace log4net.Util
 		/// <para>
 		/// </para>
 		/// </remarks>
-#if NETCORE
+#if DOTNET5_5
 		virtual public void Close()
 		{
 			m_writer.Dispose();

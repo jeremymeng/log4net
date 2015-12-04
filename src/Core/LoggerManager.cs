@@ -18,7 +18,7 @@
 #endregion
 
 using System;
-#if !NETCORE
+#if !DOTNET5_5
 using System.Configuration;
 #endif
 using System.Reflection;
@@ -165,7 +165,7 @@ namespace log4net.Core
 		/// </remarks>
 		private static void RegisterAppDomainEvents()
 		{
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 			// ProcessExit seems to be fired if we are part of the default domain
 			AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
@@ -801,7 +801,7 @@ namespace log4net.Core
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
 			// Grab the currently executing assembly
-#if NETCORE
+#if DOTNET5_5
 			Assembly myAssembly = typeof(LoggerManager).GetTypeInfo().Assembly;
 #else
 			Assembly myAssembly = Assembly.GetExecutingAssembly();
@@ -809,10 +809,10 @@ namespace log4net.Core
 			// Build Up message
 			sb.Append("log4net assembly [").Append(myAssembly.FullName).Append("]. ");
 			sb.Append("Loaded from [").Append(SystemInfo.AssemblyLocationInfo(myAssembly)).Append("]. ");
-#if !NETCORE
+#if !DOTNET5_5
 			sb.Append("(.NET Runtime [").Append(Environment.Version.ToString()).Append("]");
 #endif
-#if (!SSCLI && !NETCORE)
+#if (!SSCLI && !DOTNET5_5)
             sb.Append(" on ").Append(Environment.OSVersion.ToString());
 #endif
             sb.Append(")");

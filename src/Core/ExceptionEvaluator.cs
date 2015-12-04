@@ -18,7 +18,7 @@
 #endregion
 
 using System;
-#if NETCORE
+#if DOTNET5_5
 using System.Reflection;
 #endif
 
@@ -117,7 +117,7 @@ namespace log4net.Core
 				// check if loggingEvent.ExceptionObject is of type ExceptionType or subclass of ExceptionType
 				Type exceptionObjectType = loggingEvent.ExceptionObject.GetType();
 				return exceptionObjectType == m_type
-#if NETCORE
+#if DOTNET5_5
 					|| exceptionObjectType.GetTypeInfo().IsSubclassOf(m_type);
 #else
 					|| exceptionObjectType.IsSubclassOf(m_type);

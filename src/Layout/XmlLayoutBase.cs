@@ -196,7 +196,7 @@ namespace log4net.Layout
 			{
 				throw new ArgumentNullException("loggingEvent");
 			}
-#if NETCORE
+#if DOTNET5_5
 			var settings = new XmlWriterSettings
 			{
 				Indent = false,
@@ -215,7 +215,7 @@ namespace log4net.Layout
 
 			// Close on xmlWriter will ensure xml is flushed
 			// the protected writer will ignore the actual close
-#if NETCORE
+#if DOTNET5_5
 			xmlWriter.Dispose();
 #else
 			xmlWriter.Close();

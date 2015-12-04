@@ -20,7 +20,7 @@
 using System;
 using System.Collections;
 using System.IO;
-#if NETCORE
+#if DOTNET5_5
 using System.Reflection;
 #endif
 
@@ -864,7 +864,7 @@ namespace log4net.Layout
 
 // .NET Compact Framework 1.0 has no support for ASP.NET
 // SSCLI 1.0 has no support for ASP.NET
-#if !NETCF && !SSCLI && !CLIENT_PROFILE && !NETCORE
+#if !NETCF && !SSCLI && !CLIENT_PROFILE && !DOTNET5_5
 			s_globalRulesRegistry.Add("aspnet-cache", typeof(AspNetCachePatternConverter));
 			s_globalRulesRegistry.Add("aspnet-context", typeof(AspNetContextPatternConverter));
 			s_globalRulesRegistry.Add("aspnet-request", typeof(AspNetRequestPatternConverter));

@@ -19,7 +19,7 @@
 
 using System;
 using System.Globalization;
-#if NETCORE
+#if DOTNET5_5
 using System.Linq;
 #endif
 using System.Reflection;
@@ -216,7 +216,7 @@ namespace log4net.Util.TypeConverters
 		private static object GetConverterFromAttribute(Type destinationType)
 		{
 			// Look for an attribute on the destination type
-#if NETCORE
+#if DOTNET5_5
 			object[] attributes = destinationType.GetTypeInfo().GetCustomAttributes(typeof(TypeConverterAttribute), true).ToArray();
 #else
 			object[] attributes = destinationType.GetCustomAttributes(typeof(TypeConverterAttribute), true);

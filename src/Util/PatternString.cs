@@ -20,7 +20,7 @@
 using System;
 using System.Collections;
 using System.IO;
-#if NETCORE
+#if DOTNET5_5
 using System.Reflection;
 #endif
 
@@ -291,7 +291,7 @@ namespace log4net.Util
 			s_globalRulesRegistry.Add("date", typeof(DatePatternConverter));
 #if !NETCF
 			s_globalRulesRegistry.Add("env", typeof(EnvironmentPatternConverter));
-#if !NETCORE // EnvironmentFolderPathPatternConverter not yet supported
+#if !DOTNET5_5 // EnvironmentFolderPathPatternConverter not yet supported
 			s_globalRulesRegistry.Add("envFolderPath", typeof(EnvironmentFolderPathPatternConverter));
 #endif
 #endif

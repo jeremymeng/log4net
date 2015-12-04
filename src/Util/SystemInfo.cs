@@ -18,7 +18,7 @@
 #endregion
 
 using System;
-#if !NETCORE
+#if !DOTNET5_5
 using System.Configuration;
 #endif
 using System.Reflection;
@@ -144,7 +144,7 @@ namespace log4net.Util
 		{
 			get 
 			{
-#if NETCF || NETCORE
+#if NETCF || DOTNET5_5
 				return System.IO.Path.GetDirectoryName(SystemInfo.EntryAssemblyLocation) + System.IO.Path.DirectorySeparatorChar;
 #else
 				return AppDomain.CurrentDomain.BaseDirectory;
@@ -170,7 +170,7 @@ namespace log4net.Util
 		{
 			get 
 			{
-#if NETCF || NETCORE
+#if NETCF || DOTNET5_5
 				return SystemInfo.EntryAssemblyLocation+".config";
 #else
 				return System.AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
@@ -193,7 +193,7 @@ namespace log4net.Util
 			{
 #if NETCF
 				return SystemInfo.NativeEntryAssemblyLocation;
-#elif NETCORE
+#elif DOTNET5_5
 				return AppContext.BaseDirectory;
 #else
 				return System.Reflection.Assembly.GetEntryAssembly().Location;
@@ -231,7 +231,7 @@ namespace log4net.Util
 				return System.Threading.Thread.CurrentThread.GetHashCode();
 #elif NET_2_0 || NETCF_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
 				return System.Threading.Thread.CurrentThread.ManagedThreadId;
-#elif NETCORE
+#elif DOTNET5_5
 				return System.Threading.Tasks.Task.CurrentId ?? -1; // TODO
 #else
 				return AppDomain.GetCurrentThreadId();
@@ -289,7 +289,7 @@ namespace log4net.Util
 					{
 						try
 						{
-#if NETCORE
+#if DOTNET5_5
 							s_hostName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 #elif (!SSCLI && !NETCF)
 							s_hostName = Environment.MachineName;
@@ -339,7 +339,7 @@ namespace log4net.Util
 				{
 					try
 					{
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 						s_appFriendlyName = AppDomain.CurrentDomain.FriendlyName;
 #endif
 					}
@@ -456,7 +456,7 @@ namespace log4net.Util
 		{
 #if NETCF
 			return "Not supported on Microsoft .NET Compact Framework";
-#elif NETCORE
+#elif DOTNET5_5
 			return "Not supported on .NET Core";
 #else
 			if (myAssembly.GlobalAssemblyCache)
@@ -529,7 +529,7 @@ namespace log4net.Util
 		public static string AssemblyQualifiedName(Type type)
 		{
 			return type.FullName + ", "
-#if NETCORE
+#if DOTNET5_5
 				+ type.GetTypeInfo().Assembly.FullName;
 #else
 				+ type.Assembly.FullName;
@@ -585,7 +585,7 @@ namespace log4net.Util
 		/// </remarks>
 		public static string AssemblyFileName(Assembly myAssembly)
 		{
-#if NETCF || NETCORE // Assembly.Location  not yet available on Core
+#if NETCF || DOTNET5_5 // Assembly.Location  not yet available on Core
 			// This is not very good because it assumes that only
 			// the entry assembly can be an EXE. In fact multiple
 			// EXEs can be loaded in to a process.
@@ -630,7 +630,7 @@ namespace log4net.Util
 		/// </remarks>
 		public static Type GetTypeFromString(Type relativeType, string typeName, bool throwOnError, bool ignoreCase)
 		{
-#if NETCORE
+#if DOTNET5_5
 			return GetTypeFromString(relativeType.GetTypeInfo().Assembly, typeName, throwOnError, ignoreCase);
 #else
 			return GetTypeFromString(relativeType.Assembly, typeName, throwOnError, ignoreCase);
@@ -658,7 +658,7 @@ namespace log4net.Util
 		/// </remarks>
 		public static Type GetTypeFromString(string typeName, bool throwOnError, bool ignoreCase)
 		{
-#if NETCORE
+#if DOTNET5_5
 			return GetTypeFromString(CallingAssemblyWorkaround.GetCallingAssembly(), typeName, throwOnError, ignoreCase);
 #else
 			return GetTypeFromString(Assembly.GetCallingAssembly(), typeName, throwOnError, ignoreCase);
@@ -691,7 +691,7 @@ namespace log4net.Util
 			if(typeName.IndexOf(',') == -1)
 			{
 				//LogLog.Debug(declaringType, "SystemInfo: Loading type ["+typeName+"] from assembly ["+relativeAssembly.FullName+"]");
-#if NETCORE
+#if DOTNET5_5
 				return relativeAssembly.GetType(typeName, throwOnError, ignoreCase);
 #elif NETCF
 				return relativeAssembly.GetType(typeName, throwOnError);
@@ -973,7 +973,7 @@ namespace log4net.Util
 		{
 			try
 			{
-#if NETCF || NETCORE
+#if NETCF || DOTNET5_5
 				// Configuration APIs are not suported under the Compact Framework
 #elif NET_2_0
 				return ConfigurationManager.AppSettings[key];

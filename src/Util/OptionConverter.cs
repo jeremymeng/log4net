@@ -213,7 +213,7 @@ namespace log4net.Util
 			}
 	
 
-#if NETCORE
+#if DOTNET5_5
 			string s = CultureInfo.InvariantCulture.TextInfo.ToUpper(argValue.Trim());
 #else
 			string s = argValue.Trim().ToUpper(CultureInfo.InvariantCulture);
@@ -291,7 +291,7 @@ namespace log4net.Util
 			}
 			else
 			{
-#if NETCORE
+#if DOTNET5_5
 				if (target.GetTypeInfo().IsEnum)
 #else
 				if (target.IsEnum)
@@ -312,7 +312,7 @@ namespace log4net.Util
 					if (meth != null)
 					{
 						// Call the Parse method
-#if NETCORE
+#if DOTNET5_5
 						return meth.Invoke(target, new[] { txt });
 #else
 						return meth.Invoke(null, BindingFlags.InvokeMethod, null, new object[] {txt}, CultureInfo.InvariantCulture);

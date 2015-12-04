@@ -232,7 +232,7 @@ namespace log4net.Util
 							{
 								formattingInfo.Min = 0;
 							}
-#if NETCORE
+#if DOTNET5_5
 							formattingInfo.Min = (formattingInfo.Min * 10) + int.Parse(pattern[offset].ToString(), System.Globalization.NumberFormatInfo.InvariantInfo);
 #else
 							formattingInfo.Min = (formattingInfo.Min * 10) + int.Parse(pattern[offset].ToString(CultureInfo.InvariantCulture), System.Globalization.NumberFormatInfo.InvariantInfo);
@@ -256,7 +256,7 @@ namespace log4net.Util
 							{
 								formattingInfo.Max = 0;
 							}
-#if NETCORE
+#if DOTNET5_5
 							formattingInfo.Max = (formattingInfo.Max * 10) + int.Parse(pattern[offset].ToString(), System.Globalization.NumberFormatInfo.InvariantInfo);
 #else
 							formattingInfo.Max = (formattingInfo.Max * 10) + int.Parse(pattern[offset].ToString(CultureInfo.InvariantCulture), System.Globalization.NumberFormatInfo.InvariantInfo);
@@ -271,7 +271,7 @@ namespace log4net.Util
 						{
 							if (matches[m].Length <= remainingStringLength)
 							{
-#if NETCORE
+#if DOTNET5_5
 								if (CultureInfo.InvariantCulture.CompareInfo.Compare(pattern, offset, matches[m].Length, matches[m], 0, matches[m].Length) == 0)
 #else
 								if (String.Compare(pattern, offset, matches[m], 0, matches[m].Length, false, System.Globalization.CultureInfo.InvariantCulture) == 0)

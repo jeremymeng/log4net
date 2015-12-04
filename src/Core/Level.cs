@@ -80,7 +80,7 @@ namespace log4net.Core
 	/// </remarks>
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 	[Serializable]
 #endif
 	sealed public class Level : IComparable
@@ -111,7 +111,7 @@ namespace log4net.Core
 			}
 
 			m_levelValue = level;
-#if NETCORE
+#if DOTNET5_5
 			m_levelName = levelName;
 #else
 			m_levelName = string.Intern(levelName);

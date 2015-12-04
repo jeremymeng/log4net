@@ -160,7 +160,7 @@ namespace log4net.Appender
 
 			#region Override Implementation of Stream
 
-#if NETCORE
+#if DOTNET5_5
 			protected override void Dispose(bool disposing)
 			{
 				m_lockingModel.CloseFile();
@@ -228,7 +228,7 @@ namespace log4net.Appender
 			}
 			void IDisposable.Dispose()
 			{
-#if NETCORE
+#if DOTNET5_5
 				Dispose(true);
 #else
 				Close();
@@ -483,7 +483,7 @@ namespace log4net.Appender
 			{
 				using (CurrentAppender.SecurityContext.Impersonate(this))
 				{
-#if NETCORE
+#if DOTNET5_5
 					stream.Dispose();
 #else
 					stream.Close();
@@ -846,7 +846,7 @@ namespace log4net.Appender
 			{
 				if (m_mutex != null)
 				{
-#if !NETCORE
+#if !DOTNET5_5
 					m_mutex.Close();
 #else
 					m_mutex.Dispose();
@@ -1452,7 +1452,7 @@ namespace log4net.Appender
 		/// <summary>
 		/// The encoding to use for the file stream.
 		/// </summary>
-#if NETCORE
+#if DOTNET5_5
 		private Encoding m_encoding = Encoding.Unicode;
 #else
 		private Encoding m_encoding = Encoding.Default;

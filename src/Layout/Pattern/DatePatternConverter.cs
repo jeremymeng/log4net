@@ -120,7 +120,7 @@ namespace log4net.Layout.Pattern
 			{
 				dateFormatStr = AbsoluteTimeDateFormatter.Iso8601TimeDateFormat;
 			}
-#if NETCORE
+#if DOTNET5_5
 			if (CultureInfo.InvariantCulture.CompareInfo.Compare(dateFormatStr, AbsoluteTimeDateFormatter.Iso8601TimeDateFormat, CompareOptions.IgnoreCase) == 0)
 			{
 				m_dateFormatter = new Iso8601DateFormatter();

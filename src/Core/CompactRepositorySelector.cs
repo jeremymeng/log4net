@@ -81,7 +81,7 @@ namespace log4net.Core
 			}
 
 			// Check that the type is a repository
-#if NETCORE
+#if DOTNET5_5
 			if (!(typeof(ILoggerRepository).GetTypeInfo().IsAssignableFrom(defaultRepositoryType.GetTypeInfo())))
 #else
 			if (! (typeof(ILoggerRepository).IsAssignableFrom(defaultRepositoryType)) )

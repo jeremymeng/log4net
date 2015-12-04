@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if NETCORE
+#if DOTNET5_5
 using System.Globalization;
 #endif
 using System;
@@ -75,7 +75,7 @@ namespace log4net.Util.PatternStringConverters
 		/// </remarks>
 		public void ActivateOptions()
 		{
-#if NETCORE
+#if DOTNET5_5
 			if (CultureInfo.InvariantCulture.CompareInfo.Compare(Option, "DOS", CompareOptions.IgnoreCase) == 0)
 			{
 				Option = "\r\n";

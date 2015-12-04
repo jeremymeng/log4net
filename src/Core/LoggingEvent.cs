@@ -287,11 +287,11 @@ namespace log4net.Core
 	/// <author>Gert Driesen</author>
 	/// <author>Douglas de la Torre</author>
 	/// <author>Daniel Cazzulino</author>
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 	[Serializable]
 #endif
 	public class LoggingEvent 
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 		: ISerializable
 #endif
 	{
@@ -426,7 +426,7 @@ namespace log4net.Core
 
 		#region Protected Instance Constructors
 
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 
 		/// <summary>
 		/// Serialization constructor
@@ -745,7 +745,7 @@ namespace log4net.Core
 			{
 				if (m_data.ThreadName == null && this.m_cacheUpdatable)
 				{
-#if NETCF || NETCORE
+#if NETCF || DOTNET5_5
 					// Get thread ID only
 					m_data.ThreadName = SystemInfo.CurrentThreadId.ToString(System.Globalization.NumberFormatInfo.InvariantInfo);
 #else
@@ -828,7 +828,7 @@ namespace log4net.Core
 			{
 				if (m_data.UserName == null  && this.m_cacheUpdatable) 
 				{
-#if (NETCF || SSCLI || NETCORE)
+#if (NETCF || SSCLI || DOTNET5_5)
 					// On compact framework there's no notion of current Windows user
 					m_data.UserName = SystemInfo.NotAvailableText;
 #else
@@ -876,7 +876,7 @@ namespace log4net.Core
 			{
 				if (m_data.Identity == null  && this.m_cacheUpdatable)
 				{
-#if (NETCF || SSCLI || NETCORE)
+#if (NETCF || SSCLI || DOTNET5_5)
 					// On compact framework there's no notion of current thread principals
 					m_data.Identity = SystemInfo.NotAvailableText;
 #else
@@ -1005,7 +1005,7 @@ namespace log4net.Core
 
 		#region Implementation of ISerializable
 
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 
 		/// <summary>
 		/// Serializes this object into the <see cref="SerializationInfo" /> provided.
@@ -1320,7 +1320,7 @@ namespace log4net.Core
 			{
 				m_compositeProperties.Add(m_eventProperties);
 			}
-#if !(NETCF || NETCORE)
+#if !(NETCF || DOTNET5_5)
 			PropertiesDictionary logicalThreadProperties = LogicalThreadContext.Properties.GetProperties(false);
 			if (logicalThreadProperties != null)
 			{

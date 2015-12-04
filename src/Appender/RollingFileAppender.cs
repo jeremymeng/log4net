@@ -243,7 +243,7 @@ namespace log4net.Appender
 		{
 			if (m_mutexForRolling != null)
 			{
-#if NETCORE
+#if DOTNET5_5
 				m_mutexForRolling.Dispose();
 #else
 				m_mutexForRolling.Close();
@@ -1037,7 +1037,7 @@ namespace log4net.Appender
 		{
 			if (null != arrayFiles)
 			{
-#if NETCORE
+#if DOTNET5_5
 				string baseFileLower = CultureInfo.InvariantCulture.TextInfo.ToLower(baseFile);
 
 				foreach(string curFileName in arrayFiles)

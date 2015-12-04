@@ -135,7 +135,7 @@ namespace log4net.Appender
 			{
 				string v = value.Trim();
 
-#if NETCORE
+#if DOTNET5_5
                 if (CultureInfo.InvariantCulture.CompareInfo.Compare(ConsoleError, v, CompareOptions.IgnoreCase) == 0)
 #else
                 if (string.Compare(ConsoleError, v, true, CultureInfo.InvariantCulture) == 0) 

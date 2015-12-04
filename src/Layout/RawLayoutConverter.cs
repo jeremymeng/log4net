@@ -18,7 +18,7 @@
 #endregion
 
 using System;
-#if NETCORE
+#if DOTNET5_5
 using System.Reflection;
 #endif
 

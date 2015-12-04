@@ -23,7 +23,7 @@
 
 using System;
 using System.Collections;
-#if !NETCORE
+#if !DOTNET5_5
 using System.Configuration;
 #else
 using System.Linq;
@@ -586,7 +586,7 @@ namespace log4net.Core
 
 			try
 			{
-#if NETCORE
+#if DOTNET5_5
 				object[] repositoryAttributes = assembly.GetCustomAttributes(typeof(log4net.Config.RepositoryAttribute)).ToArray();
 #else
 				object[] repositoryAttributes = Attribute.GetCustomAttributes(assembly, typeof(log4net.Config.RepositoryAttribute), false);
@@ -662,7 +662,7 @@ namespace log4net.Core
 			}
 
 			// Look for the Configurator attributes (e.g. XmlConfiguratorAttribute) on the assembly
-#if NETCORE
+#if DOTNET5_5
 			object[] configAttributes = assembly.GetCustomAttributes(typeof(log4net.Config.ConfiguratorAttribute)).ToArray();
 #else
 			object[] configAttributes = Attribute.GetCustomAttributes(assembly, typeof(log4net.Config.ConfiguratorAttribute), false);
@@ -748,7 +748,7 @@ namespace log4net.Core
 						{
                             LogLog.Error(declaringType, "DefaultRepositorySelector: Exception while parsing log4net.Config file physical path [" + repositoryConfigFilePath + "]", ex);
 						}
-#if !NETCORE
+#if !DOTNET5_5
 						try
 						{
                             LogLog.Debug(declaringType, "Loading and watching configuration for default repository from AppSettings specified Config path [" + repositoryConfigFilePath + "]");
@@ -774,7 +774,7 @@ namespace log4net.Core
 					{
 						LogLog.Error(declaringType, "Exception while parsing log4net.Config file path ["+repositoryConfigFile+"]", ex);
 					}
-#if !NETCORE
+#if !DOTNET5_5
 					if (repositoryConfigUri != null)
 					{
 						LogLog.Debug(declaringType, "Loading configuration for default repository from AppSettings specified Config URI ["+repositoryConfigUri.ToString()+"]");
@@ -817,7 +817,7 @@ namespace log4net.Core
 			}
 
 			// Look for the PluginAttribute on the assembly
-#if NETCORE
+#if DOTNET5_5
 			object[] configAttributes = assembly.GetCustomAttributes(typeof(log4net.Config.PluginAttribute)).ToArray();
 #else
 			object[] configAttributes = Attribute.GetCustomAttributes(assembly, typeof(log4net.Config.PluginAttribute), false);
@@ -861,7 +861,7 @@ namespace log4net.Core
 			}
 
 			// Look for the AliasRepositoryAttribute on the assembly
-#if NETCORE
+#if DOTNET5_5
 			object[] configAttributes = assembly.GetCustomAttributes(typeof(log4net.Config.AliasRepositoryAttribute)).ToArray();
 #else
 			object[] configAttributes = Attribute.GetCustomAttributes(assembly, typeof(log4net.Config.AliasRepositoryAttribute), false);

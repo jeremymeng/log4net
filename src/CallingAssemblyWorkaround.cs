@@ -1,4 +1,4 @@
-﻿#if NETCORE
+﻿#if DOTNET5_5
 namespace System.Reflection
 {
     /// <summary>
