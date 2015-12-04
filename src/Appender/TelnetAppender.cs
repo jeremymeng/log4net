@@ -431,6 +431,10 @@ namespace log4net.Appender
 				}
 			}
 			
+
+#if DOTNET5_5
+			private void OnConnect(System.Threading.Tasks.Task<Socket> acceptTask)
+#else
 			/// <summary>
 			/// Callback used to accept a connection on the server socket
 			/// </summary>
@@ -441,9 +445,6 @@ namespace log4net.Appender
 			/// if there are two many open connections you will be disconnected
 			/// </para>
 			/// </remarks>
-#if DOTNET5_5
-			private void OnConnect(System.Threading.Tasks.Task<Socket> acceptTask)
-#else
 			private void OnConnect(IAsyncResult asyncResult)
 #endif
 			{
@@ -455,7 +456,6 @@ namespace log4net.Appender
 					// Block until a client connects
 					Socket socket = m_serverSocket.EndAccept(asyncResult);
 #endif
-
 					LogLog.Debug(declaringType, "Accepting connection from ["+socket.RemoteEndPoint.ToString()+"]");
 					SocketClient client = new SocketClient(socket);
 
