@@ -831,13 +831,17 @@ namespace log4net.Appender
 							.Replace(":", "_")
 							.Replace("/", "_");
 
+#if !NETCORE
 					m_mutex = new Mutex(false, mutexFriendlyFilename);
+#else
+					m_mutex = new Mutex(false);
+#endif
 				}
 				else
 				{
 					CurrentAppender.ErrorHandler.Error("Programming error, mutex already initialized!");
 				}
-            }
+			}
 
 			/// <summary>
 			/// Disposes all resources that were initialized by this locking model.
@@ -861,19 +865,19 @@ namespace log4net.Appender
 		}
 #endif
 
-		#endregion Locking Models
+#endregion Locking Models
 
-		#region Public Instance Constructors
+                    #region Public Instance Constructors
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		/// <remarks>
-		/// <para>
-		/// Default constructor
-		/// </para>
-		/// </remarks>
-		public FileAppender()
+                    /// <summary>
+                    /// Default constructor
+                    /// </summary>
+                    /// <remarks>
+                    /// <para>
+                    /// Default constructor
+                    /// </para>
+                    /// </remarks>
+            public FileAppender()
 		{
 		}
 

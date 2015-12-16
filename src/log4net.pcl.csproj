@@ -703,5 +703,5 @@
   </Target>
   -->
   <PropertyGroup>
-    <NuGetTargetMoniker>.NETPlatform,Version=v5.4</NuGetTargetMoniker>
+    <NuGetTargetMoniker>.NETPlatform,Version=v5.5</NuGetTargetMoniker>
   </PropertyGroup></Project>

@@ -17,7 +17,6 @@
 //
 #endregion
 
-#if FEATURE_TELNETAPPENDER
 using System;
 using System.Collections;
 using System.Globalization;
@@ -528,4 +527,3 @@ namespace log4net.Appender
 #endregion
 	}
 }
-#endif

@@ -1161,10 +1161,14 @@ namespace log4net.Appender
 				m_baseFileName = base.File;
 			}
 
-			// initialize the mutex that is used to lock rolling
+            // initialize the mutex that is used to lock rolling
+#if !NETCORE
 			m_mutexForRolling = new Mutex(false, m_baseFileName.Replace("\\", "_").Replace(":", "_").Replace("/", "_"));
+#else
+            m_mutexForRolling = new Mutex(false);
+#endif
 
-			if (m_rollDate && File != null && m_scheduledFilename == null)
+            if (m_rollDate && File != null && m_scheduledFilename == null)
 			{
                 m_scheduledFilename = CombinePath(File, m_now.ToString(m_datePattern, System.Globalization.DateTimeFormatInfo.InvariantInfo));
 			}
@@ -1174,9 +1178,9 @@ namespace log4net.Appender
 			base.ActivateOptions();
 		}
 
-		#endregion
+#endregion
   
-		#region Roll File
+#region Roll File
 
         /// <summary>
         /// 
@@ -1514,9 +1518,9 @@ namespace log4net.Appender
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region NextCheckDate
+#region NextCheckDate
 
 		/// <summary>
 		/// Get the start time of the next window for the current rollpoint
@@ -1600,9 +1604,9 @@ namespace log4net.Appender
 			return current;
 		}
 
-		#endregion
+#endregion
 
-		#region Private Instance Fields
+#region Private Instance Fields
 
 		/// <summary>
 		/// This object supplies the current date/time.  Allows test code to plug in
@@ -1695,18 +1699,18 @@ namespace log4net.Appender
 		/// </summary>
 		private Mutex m_mutexForRolling;
   
-		#endregion Private Instance Fields
+#endregion Private Instance Fields
 
-		#region Static Members
+#region Static Members
 
 		/// <summary>
 		/// The 1st of January 1970 in UTC
 		/// </summary>
 		private static readonly DateTime s_date1970 = new DateTime(1970, 1, 1);
 
-		#endregion
+#endregion
 
-		#region DateTime
+#region DateTime
 
 		/// <summary>
 		/// This interface is used to supply Date/Time information to the <see cref="RollingFileAppender"/>.
@@ -1772,7 +1776,7 @@ namespace log4net.Appender
 		}
 #endif
 
-        #endregion DateTime
+#endregion DateTime
 	}
 }
 
